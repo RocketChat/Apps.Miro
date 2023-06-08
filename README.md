@@ -1,7 +1,5 @@
 # Miro Integration for Rocket.Chat
 
-![Horizontal Banner](https://user-images.githubusercontent.com/65130881/188604007-e3a39ba1-9536-48cd-8955-e874c02f543c.png)
-
 The Miro App for Rocket.Chat provides a seamless integration between Miro and Rocket.Chat and improves collaboration between teams.
 The application allows users to create and manage their boards, subscribe to task events, create new tasks, edit and delete their boards and do much more right from Rocket.Chat.
 
