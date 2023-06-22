@@ -15,6 +15,7 @@ import { Subcommands } from "../enums/Subcommands";
 import { Texts } from "../enums/Texts";
 import { sendNotification } from "../lib/message";
 import { authorize } from "./subcommands/authorize";
+import { getBoards } from "./subcommands/getBoards";
 
 export class Miro implements ISlashCommand {
     public command = "miro-app";
@@ -57,6 +58,16 @@ export class Miro implements ISlashCommand {
                     modify,
                     context.getSender(),
                     persistence
+                );
+                break;
+            case Subcommands.GetBoards:
+                await getBoards(
+                    this.app,
+                    read,
+                    modify,
+                    context.getSender(),
+                    persistence,
+                    http
                 );
                 break;
             default:

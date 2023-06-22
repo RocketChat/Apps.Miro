@@ -10,4 +10,5 @@ export enum Texts {
         `You first need to complete the app's setup and then authorize your Miro account.\n` +
         `To do so, type  \`/miro-app auth\`\n`,
     AuthSuccess = `The authentication process has succeeded! :tada:\n`,
+    getBoardsFailure = '❗️ Unable to retrieve boards! \n Error '
 }
