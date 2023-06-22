@@ -24,6 +24,8 @@ import { persistUserAsync } from "./src/storage/users";
 import { HttpStatusCode } from "@rocket.chat/apps-engine/definition/accessors";
 import { getMiroUserProfileUrl } from "./src/lib/const";
 import { Texts } from "./src/enums/Texts";
+import { IUIKitResponse, UIKitBlockInteractionContext, UIKitViewSubmitInteractionContext } from '@rocket.chat/apps-engine/definition/uikit';
+import { ExecuteViewSubmitHandler } from './src/handlers/submitHandler';
 import { Miro as MiroCommand } from "./src/slashcommands/miro";
 
 export class MiroApp extends App {
@@ -114,5 +116,14 @@ export class MiroApp extends App {
             .reader.getUserReader()
             .getByUsername(this.botUsername)) as IUser;
         return true;
+    }
+
+    public async executeViewSubmitHandler(context: UIKitViewSubmitInteractionContext, read: IRead, http: IHttp, persistence: IPersistence, modify: IModify) {
+        const handler = new ExecuteViewSubmitHandler(this, read, http, modify, persistence);
+        return await handler.run(this, context, read, http, persistence, modify);
+      }
+    
+    protected async extendConfiguration(configuration: IConfigurationExtend): Promise<void> {
+    await Promise.all([this.getOauth2ClientInstance().setup(configuration), configuration.slashCommands.provideSlashCommand(new MiroCommand(this))]);
     }
 }
