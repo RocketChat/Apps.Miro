@@ -20,5 +20,5 @@ export enum ModalsEnum {
     OWNER_ID_INPUT_LABEL = 'Enter OWNER ID',
     OWNER_ID_INPUT_LABEL_DEFAULT = 'enter the OWNER id here',
     OWNER_ID_INPUT = 'owner-id',
-    GET_BOARDS_SUBMIT_BUTTON_LABEL = 'Get Boards'
+    GET_BOARDS_SUBMIT_BUTTON_LABEL = 'Get Boards',
 }

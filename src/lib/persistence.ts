@@ -1,5 +1,5 @@
-import { IPersistence, IPersistenceRead, IRead } from "@rocket.chat/apps-engine/definition/accessors";
-import { RocketChatAssociationModel, RocketChatAssociationRecord } from "@rocket.chat/apps-engine/definition/metadata";
+import { IPersistence, IPersistenceRead, IRead } from '@rocket.chat/apps-engine/definition/accessors';
+import { RocketChatAssociationModel, RocketChatAssociationRecord } from '@rocket.chat/apps-engine/definition/metadata';
 
 export const persistUIData = async (persistence: IPersistence, id: string, data: any): Promise<void> => {
   const association = new RocketChatAssociationRecord(RocketChatAssociationModel.USER, `${id}#UI`);

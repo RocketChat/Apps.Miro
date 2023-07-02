@@ -1,32 +1,32 @@
 import { IHttp, IModify, IPersistence, IRead, IUIKitSurfaceViewParam } from '@rocket.chat/apps-engine/definition/accessors';
-import { ModalsEnum } from '../enums/Modals';
 import { SlashCommandContext } from '@rocket.chat/apps-engine/definition/slashcommands';
 import { UIKitInteractionContext, UIKitSurfaceType } from '@rocket.chat/apps-engine/definition/uikit';
 import { Block } from '@rocket.chat/ui-kit';
+import { ModalsEnum } from '../enums/Modals';
 import { getActionsBlock, getButton, getInputBox, getOptions, getSectionBlock, getStaticSelectElement } from '../helpers/blockBuilder';
+import { IGenericModal } from '../interfaces/external';
 
-export async function getBoardsModal({ modify, read, persistence, http, slashcommandcontext, uikitcontext, data }: { modify: IModify; read: IRead; persistence: IPersistence; http: IHttp; slashcommandcontext?: SlashCommandContext; uikitcontext?: UIKitInteractionContext; data?: string }): Promise<IUIKitSurfaceViewParam> {
+export async function getBoardsModal({ modify, read, persistence, http, slashcommandcontext, uikitcontext, data }: IGenericModal): Promise<IUIKitSurfaceViewParam> {
   const viewId = ModalsEnum.GET_BOARDS;
-  const block: Block[] = [];
+  const block: Array<Block> = [];
   let title;
 
-  let optionalParametersSectionBlock = await getSectionBlock(ModalsEnum.OPTIONAL_PARAMETERS_LABEL);
+  const optionalParametersSectionBlock = await getSectionBlock(ModalsEnum.OPTIONAL_PARAMETERS_LABEL);
 
   data ? (title = `from team #${data?.split(',')[0]}`) : (title = '');
 
-  let teamIdInputBox = await getInputBox(ModalsEnum.QUERY_INPUT_LABEL, ModalsEnum.TEAM_ID_INPUT_LABEL_DEFAULT, ModalsEnum.TEAM_ID_BLOCK, ModalsEnum.TEAM_ID_INPUT, data?.split(',')[3] || '');
+  const teamIdInputBox = await getInputBox(ModalsEnum.QUERY_INPUT_LABEL, ModalsEnum.TEAM_ID_INPUT_LABEL_DEFAULT, ModalsEnum.TEAM_ID_BLOCK, ModalsEnum.TEAM_ID_INPUT, data?.split(',')[3] || '');
 
-  let projectIdInputBox = await getInputBox(ModalsEnum.PROJECT_ID_INPUT_LABEL, ModalsEnum.PROJECT_ID_INPUT_LABEL_DEFAULT, ModalsEnum.PROJECT_ID_BLOCK, ModalsEnum.PROJECT_ID_INPUT, `1`);
+  const projectIdInputBox = await getInputBox(ModalsEnum.PROJECT_ID_INPUT_LABEL, ModalsEnum.PROJECT_ID_INPUT_LABEL_DEFAULT, ModalsEnum.PROJECT_ID_BLOCK, ModalsEnum.PROJECT_ID_INPUT, `1`);
 
-  let ownerIdInputBox = await getInputBox(ModalsEnum.OWNER_ID_INPUT_LABEL, ModalsEnum.OWNER_ID_INPUT_LABEL_DEFAULT, ModalsEnum.OWNER_ID_BLOCK, ModalsEnum.OWNER_ID_INPUT, data?.split(',')[3] || '');
+  const ownerIdInputBox = await getInputBox(ModalsEnum.OWNER_ID_INPUT_LABEL, ModalsEnum.OWNER_ID_INPUT_LABEL_DEFAULT, ModalsEnum.OWNER_ID_BLOCK, ModalsEnum.OWNER_ID_INPUT, data?.split(',')[3] || '');
 
-  let queryInputBox = await getInputBox(ModalsEnum.QUERY_INPUT_LABEL, ModalsEnum.QUERY_INPUT_LABEL_DEFAULT, ModalsEnum.QUERY_BLOCK, ModalsEnum.QUERY_INPUT, data?.split(',')[3] || '');
-
+  const queryInputBox = await getInputBox(ModalsEnum.QUERY_INPUT_LABEL, ModalsEnum.QUERY_INPUT_LABEL_DEFAULT, ModalsEnum.QUERY_BLOCK, ModalsEnum.QUERY_INPUT, data?.split(',')[3] || '');
 
   block.push(optionalParametersSectionBlock, teamIdInputBox, projectIdInputBox, ownerIdInputBox, queryInputBox);
 
-  let closeButton = await getButton('Close', '', '');
-  let submitButton = await getButton(ModalsEnum.GET_BOARDS_SUBMIT_BUTTON_LABEL, '', '');
+  const closeButton = await getButton('Close', '', '');
+  const submitButton = await getButton(ModalsEnum.GET_BOARDS_SUBMIT_BUTTON_LABEL, '', '');
 
   return {
     id: viewId,

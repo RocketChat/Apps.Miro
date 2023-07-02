@@ -2,11 +2,11 @@ import {
     IModify,
     IPersistence,
     IRead,
-} from "@rocket.chat/apps-engine/definition/accessors";
-import { IRoom, RoomType } from "@rocket.chat/apps-engine/definition/rooms";
-import { IUser } from "@rocket.chat/apps-engine/definition/users";
-import { Block, SectionBlock } from "@rocket.chat/ui-kit";
-import { NotificationsController } from "./notifications";
+} from '@rocket.chat/apps-engine/definition/accessors';
+import { IRoom, RoomType } from '@rocket.chat/apps-engine/definition/rooms';
+import { IUser } from '@rocket.chat/apps-engine/definition/users';
+import { Block, SectionBlock } from '@rocket.chat/ui-kit';
+import { NotificationsController } from './notifications';
 
 /**
  * Gets a direct message room between bot and another user, creating if it doesn't exist
@@ -21,7 +21,7 @@ export async function getDirect(
     read: IRead,
     modify: IModify,
     appUser: IUser,
-    username: string
+    username: string,
 ): Promise<IRoom | undefined> {
     const usernames = [appUser.username, username];
     let room: IRoom;
@@ -54,7 +54,7 @@ export async function sendMessage(
     room: IRoom,
     sender: IUser,
     message: string,
-    blocks?: Array<Block>
+    blocks?: Array<Block>,
 ): Promise<string> {
     const msg = modify
         .getCreator()
@@ -75,12 +75,12 @@ export async function sendMessage(
 export async function shouldSendMessage(
     read: IRead,
     persistence: IPersistence,
-    user: IUser
+    user: IUser,
 ): Promise<boolean> {
     const notificationsController = new NotificationsController(
         read,
         persistence,
-        user
+        user,
     );
     const notificationStatus =
         await notificationsController.getNotificationsStatus();
@@ -94,7 +94,7 @@ export async function sendNotification(
     user: IUser,
     room: IRoom,
     message: string,
-    blocks?: Array<Block>
+    blocks?: Array<Block>,
 ): Promise<void> {
     const appUser = (await read.getUserReader().getAppUser()) as IUser;
 
@@ -118,26 +118,26 @@ export async function sendDirectMessage(
     user: IUser,
     message: string,
     persistence: IPersistence,
-    blocks?: Array<Block>
+    blocks?: Array<Block>,
 ): Promise<string> {
     const appUser = (await read.getUserReader().getAppUser()) as IUser;
     const targetRoom = (await getDirect(
         read,
         modify,
         appUser,
-        user.username
+        user.username,
     )) as IRoom;
 
     const shouldSend = await shouldSendMessage(read, persistence, user);
 
     if (!shouldSend) {
-        return "";
+        return '';
     }
 
     return await sendMessage(modify, targetRoom, appUser, message, blocks);
 }
 
 export function isUserHighHierarchy(user: IUser): boolean {
-    const clearanceList = ["admin", "owner", "moderator"];
+    const clearanceList = ['admin', 'owner', 'moderator'];
     return user.roles.some((role) => clearanceList.includes(role));
 }

@@ -1,12 +1,12 @@
 import {
     IPersistence,
     IRead,
-} from "@rocket.chat/apps-engine/definition/accessors";
+} from '@rocket.chat/apps-engine/definition/accessors';
 import {
     RocketChatAssociationModel,
     RocketChatAssociationRecord,
-} from "@rocket.chat/apps-engine/definition/metadata/RocketChatAssociations";
-import { IUser } from "@rocket.chat/apps-engine/definition/users/IUser";
+} from '@rocket.chat/apps-engine/definition/metadata/RocketChatAssociations';
+import { IUser } from '@rocket.chat/apps-engine/definition/users/IUser';
 
 interface INotificationsStatus {
     status: boolean;
@@ -23,12 +23,12 @@ export class NotificationsController {
         this.persistence = persistence;
         this.association = new RocketChatAssociationRecord(
             RocketChatAssociationModel.MISC,
-            `miro-notifications`
+            `miro-notifications`,
         );
 
         this.userAssociation = new RocketChatAssociationRecord(
             RocketChatAssociationModel.USER,
-            user.id
+            user.id,
         );
     }
 
@@ -57,7 +57,7 @@ export class NotificationsController {
 
         await this.persistence.updateByAssociations(
             [this.association, this.userAssociation],
-            { status }
+            { status },
         );
 
         return status;
