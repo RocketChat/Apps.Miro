@@ -26,15 +26,15 @@ export const getMiroBoardsUrl = (
     owner?: string,
     query?: string,
   ) => {
-    const params = new URLSearchParams();
-
-    if (team_id) { params.append('team_id', team_id); }
-    if (project_id) { params.append('project_id', project_id); }
-    if (owner) { params.append('owner', owner); }
-    if (query) { params.append('query', query); }
-
-    return `${APIBaseDomain}/${APIVersionReference.V2}/${MiroApiEndpoint.Boards}${params.toString() ? `?${params.toString()}` : ''}`;
-  };
+    const params: string[] = [];
+    if (team_id) params.push(`team_id=${encodeURIComponent(team_id)}`);
+    if (project_id) params.push(`project_id=${encodeURIComponent(project_id)}`);
+    if (owner) params.push(`owner=${encodeURIComponent(owner)}`);
+    if (query) params.push(`query=${encodeURIComponent(query)}`);
+    const queryString = params.join('&');
+    const url = `${APIBaseDomain}/${APIVersionReference.V2}/${MiroApiEndpoint.Boards}${queryString ? `?${queryString}` : ''}`;
+    return url;
+};
 
 export const getMiroSearchUrl = () => {
     return `${APIBaseDomain}/${APIVersionReference.V2}/${MiroApiEndpoint.Search}`;

@@ -15,13 +15,13 @@ export async function getBoardsModal({ modify, read, persistence, http, slashcom
 
   data ? (title = `from team #${data?.split(',')[0]}`) : (title = '');
 
-  const teamIdInputBox = await getInputBox(ModalsEnum.QUERY_INPUT_LABEL, ModalsEnum.TEAM_ID_INPUT_LABEL_DEFAULT, ModalsEnum.TEAM_ID_BLOCK, ModalsEnum.TEAM_ID_INPUT, data?.split(',')[3] || '');
+  const teamIdInputBox = await getInputBox(ModalsEnum.QUERY_INPUT_LABEL, ModalsEnum.TEAM_ID_INPUT_LABEL_DEFAULT, ModalsEnum.TEAM_ID_BLOCK, ModalsEnum.TEAM_ID_INPUT, '');
 
-  const projectIdInputBox = await getInputBox(ModalsEnum.PROJECT_ID_INPUT_LABEL, ModalsEnum.PROJECT_ID_INPUT_LABEL_DEFAULT, ModalsEnum.PROJECT_ID_BLOCK, ModalsEnum.PROJECT_ID_INPUT, `1`);
+  const projectIdInputBox = await getInputBox(ModalsEnum.PROJECT_ID_INPUT_LABEL, ModalsEnum.PROJECT_ID_INPUT_LABEL_DEFAULT, ModalsEnum.PROJECT_ID_BLOCK, ModalsEnum.PROJECT_ID_INPUT, '');
 
-  const ownerIdInputBox = await getInputBox(ModalsEnum.OWNER_ID_INPUT_LABEL, ModalsEnum.OWNER_ID_INPUT_LABEL_DEFAULT, ModalsEnum.OWNER_ID_BLOCK, ModalsEnum.OWNER_ID_INPUT, data?.split(',')[3] || '');
+  const ownerIdInputBox = await getInputBox(ModalsEnum.OWNER_ID_INPUT_LABEL, ModalsEnum.OWNER_ID_INPUT_LABEL_DEFAULT, ModalsEnum.OWNER_ID_BLOCK, ModalsEnum.OWNER_ID_INPUT, '');
 
-  const queryInputBox = await getInputBox(ModalsEnum.QUERY_INPUT_LABEL, ModalsEnum.QUERY_INPUT_LABEL_DEFAULT, ModalsEnum.QUERY_BLOCK, ModalsEnum.QUERY_INPUT, data?.split(',')[3] || '');
+  const queryInputBox = await getInputBox(ModalsEnum.QUERY_INPUT_LABEL, ModalsEnum.QUERY_INPUT_LABEL_DEFAULT, ModalsEnum.QUERY_BLOCK, ModalsEnum.QUERY_INPUT, '');
 
   block.push(optionalParametersSectionBlock, teamIdInputBox, projectIdInputBox, ownerIdInputBox, queryInputBox);
 
