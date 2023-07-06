@@ -2,16 +2,16 @@ import {
     IPersistence,
     IPersistenceRead,
     IRead,
-} from "@rocket.chat/apps-engine/definition/accessors";
+} from '@rocket.chat/apps-engine/definition/accessors';
 import {
     RocketChatAssociationModel,
     RocketChatAssociationRecord,
-} from "@rocket.chat/apps-engine/definition/metadata";
+} from '@rocket.chat/apps-engine/definition/metadata';
 import {
     IAuthData,
     IOAuth2ClientOptions,
-} from "@rocket.chat/apps-engine/definition/oauth2/IOAuth2";
-import { IUser } from "@rocket.chat/apps-engine/definition/users";
+} from '@rocket.chat/apps-engine/definition/oauth2/IOAuth2';
+import { IUser } from '@rocket.chat/apps-engine/definition/users';
 
 export interface UserModel {
     rocketChatUserId: string;
@@ -20,32 +20,32 @@ export interface UserModel {
 
 const assoc = new RocketChatAssociationRecord(
     RocketChatAssociationModel.MISC,
-    "users"
+    'users',
 );
 
 export const persistUserAsync = async (
     persis: IPersistence,
     rocketChatUserId: string,
-    miroUserId: string
+    miroUserId: string,
 ): Promise<void> => {
     const associationsByRocketChatUserId: Array<RocketChatAssociationRecord> = [
         new RocketChatAssociationRecord(
             RocketChatAssociationModel.MISC,
-            "User"
+            'User',
         ),
         new RocketChatAssociationRecord(
             RocketChatAssociationModel.USER,
-            rocketChatUserId
+            rocketChatUserId,
         ),
     ];
     const associationsByTeamsUserId: Array<RocketChatAssociationRecord> = [
         new RocketChatAssociationRecord(
             RocketChatAssociationModel.MISC,
-            "User"
+            'User',
         ),
         new RocketChatAssociationRecord(
             RocketChatAssociationModel.USER,
-            miroUserId
+            miroUserId,
         ),
     ];
     const data: UserModel = {
@@ -56,23 +56,23 @@ export const persistUserAsync = async (
     await persis.updateByAssociations(
         associationsByRocketChatUserId,
         data,
-        true
+        true,
     );
     await persis.updateByAssociations(associationsByTeamsUserId, data, true);
 };
 
 export const retrieveUserByRocketChatUserIdAsync = async (
     read: IRead,
-    rocketChatUserId: string
+    rocketChatUserId: string,
 ): Promise<UserModel | null> => {
     const associations: Array<RocketChatAssociationRecord> = [
         new RocketChatAssociationRecord(
             RocketChatAssociationModel.MISC,
-            "User"
+            'User',
         ),
         new RocketChatAssociationRecord(
             RocketChatAssociationModel.USER,
-            rocketChatUserId
+            rocketChatUserId,
         ),
     ];
 
@@ -85,7 +85,7 @@ export const retrieveUserByRocketChatUserIdAsync = async (
 
     if (results.length > 1) {
         throw new Error(
-            `More than one User record for user ${rocketChatUserId}`
+            `More than one User record for user ${rocketChatUserId}`,
         );
     }
 
@@ -95,16 +95,16 @@ export const retrieveUserByRocketChatUserIdAsync = async (
 
 export const retrieveUserBymiroUserIdAsync = async (
     read: IRead,
-    miroUserId: string
+    miroUserId: string,
 ): Promise<UserModel | null> => {
     const associations: Array<RocketChatAssociationRecord> = [
         new RocketChatAssociationRecord(
             RocketChatAssociationModel.MISC,
-            "User"
+            'User',
         ),
         new RocketChatAssociationRecord(
             RocketChatAssociationModel.USER,
-            miroUserId
+            miroUserId,
         ),
     ];
 
@@ -126,7 +126,7 @@ export const retrieveUserBymiroUserIdAsync = async (
 export async function create(
     read: IRead,
     persistence: IPersistence,
-    user: IUser
+    user: IUser,
 ): Promise<void> {
     const users = await getAllUsers(read);
 
@@ -144,7 +144,7 @@ export async function create(
 export async function remove(
     read: IRead,
     persistence: IPersistence,
-    user: IUser
+    user: IUser,
 ): Promise<void> {
     const users = await getAllUsers(read);
 
@@ -158,12 +158,12 @@ export async function remove(
     await persistence.updateByAssociation(assoc, users);
 }
 
-export async function getAllUsers(read: IRead): Promise<IUser[]> {
+export async function getAllUsers(read: IRead): Promise<Array<IUser>> {
     const data = await read.getPersistenceReader().readByAssociation(assoc);
-    return data.length ? (data[0] as IUser[]) : [];
+    return data.length ? (data[0] as Array<IUser>) : [];
 }
 
-function isUserPresent(users: IUser[], targetUser: IUser): boolean {
+function isUserPresent(users: Array<IUser>, targetUser: IUser): boolean {
     return users.some((user) => user.id === targetUser.id);
 }
 
@@ -175,16 +175,16 @@ function isUserPresent(users: IUser[], targetUser: IUser): boolean {
  */
 export async function getAccessTokenForUser(
     read: IRead,
-    user: IUser
+    user: IUser,
 ): Promise<IAuthData | undefined> {
     const associations = [
         new RocketChatAssociationRecord(
             RocketChatAssociationModel.USER,
-            user.id
+            user.id,
         ),
         new RocketChatAssociationRecord(
             RocketChatAssociationModel.MISC,
-            `miro-app-oauth-connection`
+            `miro-app-oauth-connection`,
         ),
     ];
 

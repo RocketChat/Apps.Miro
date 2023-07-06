@@ -1,4 +1,4 @@
-import { ButtonStyle } from "@rocket.chat/apps-engine/definition/uikit";
+import { ButtonStyle } from '@rocket.chat/apps-engine/definition/uikit';
 import {
     ActionsBlock,
     ButtonElement,
@@ -8,8 +8,8 @@ import {
     Option,
     SectionBlock,
     StaticSelectElement,
-} from "@rocket.chat/ui-kit";
-import { AppEnum } from "../enums/App";
+} from '@rocket.chat/ui-kit';
+import { AppEnum } from '../enums/App';
 
 export async function getInputBox(
     labelText: string,
@@ -17,25 +17,25 @@ export async function getInputBox(
     blockId: string,
     actionId: string,
     initialValue?: string,
-    multiline?: boolean
+    multiline?: boolean,
 ): Promise<InputBlock> {
     const block: InputBlock = {
-        type: "input",
+        type: 'input',
         label: {
-            type: "plain_text",
+            type: 'plain_text',
             text: labelText,
         },
         element: {
-            type: "plain_text_input",
+            type: 'plain_text_input',
             placeholder: {
-                type: "plain_text",
+                type: 'plain_text',
                 text: placeholderText,
             },
             appId: AppEnum.APP_ID,
-            blockId: blockId,
-            actionId: actionId,
-            initialValue: initialValue,
-            multiline: multiline,
+            blockId,
+            actionId,
+            initialValue,
+            multiline,
         },
     };
     return block;
@@ -46,24 +46,24 @@ export async function getInputBoxDate(
     placeholderText: string,
     blockId: string,
     actionId: string,
-    initialDate?: string
+    initialDate?: string,
 ): Promise<InputBlock> {
     const block: InputBlock = {
-        type: "input",
+        type: 'input',
         label: {
-            type: "plain_text",
+            type: 'plain_text',
             text: labelText,
         },
         element: {
-            type: "datepicker",
+            type: 'datepicker',
             placeholder: {
-                type: "plain_text",
+                type: 'plain_text',
                 text: placeholderText,
             },
             appId: AppEnum.APP_ID,
-            blockId: blockId,
-            actionId: actionId,
-            initialDate: initialDate,
+            blockId,
+            actionId,
+            initialDate,
         },
     };
     return block;
@@ -75,54 +75,54 @@ export async function getButton(
     actionId: string,
     value?: string,
     style?: ButtonStyle.PRIMARY | ButtonStyle.DANGER,
-    url?: string
+    url?: string,
 ): Promise<ButtonElement> {
     const button: ButtonElement = {
-        type: "button",
+        type: 'button',
         text: {
-            type: "plain_text",
+            type: 'plain_text',
             text: labelText,
         },
         appId: AppEnum.APP_ID,
-        blockId: blockId,
-        actionId: actionId,
-        url: url,
-        value: value,
-        style: style,
+        blockId,
+        actionId,
+        url,
+        value,
+        style,
     };
     return button;
 }
 
 export async function getSectionBlock(
     labelText: string,
-    accessory?: any
+    accessory?: any,
 ): Promise<SectionBlock> {
     const block: SectionBlock = {
-        type: "section",
+        type: 'section',
         text: {
-            type: "plain_text",
+            type: 'plain_text',
             text: labelText,
         },
-        accessory: accessory,
+        accessory,
     };
     return block;
 }
 
 export async function getDividerBlock(): Promise<DividerBlock> {
     const block: DividerBlock = {
-        type: "divider",
+        type: 'divider',
     };
     return block;
 }
 
 export async function getContextBlock(
-    elementText: string
+    elementText: string,
 ): Promise<ContextBlock> {
     const block: ContextBlock = {
-        type: "context",
+        type: 'context',
         elements: [
             {
-                type: "plain_text",
+                type: 'plain_text',
                 text: elementText,
             },
         ],
@@ -135,39 +135,39 @@ export async function getStaticSelectElement(
     options: Array<Option>,
     blockId: string,
     actionId: string,
-    initialValue?: Option["value"]
+    initialValue?: Option['value'],
 ): Promise<StaticSelectElement> {
     const block: StaticSelectElement = {
-        type: "static_select",
+        type: 'static_select',
         placeholder: {
-            type: "plain_text",
+            type: 'plain_text',
             text: placeholderText,
         },
-        options: options,
+        options,
         appId: AppEnum.APP_ID,
-        blockId: blockId,
-        actionId: actionId,
-        initialValue: initialValue,
+        blockId,
+        actionId,
+        initialValue,
     };
     return block;
 }
 
 export async function getOptions(text: string, value: string): Promise<Option> {
     const block: Option = {
-        text: { type: "plain_text", text: text },
-        value: value,
+        text: { type: 'plain_text', text },
+        value,
     };
     return block;
 }
 
 export async function getActionsBlock(
     blockId: string,
-    elements: Array<ButtonElement> | Array<StaticSelectElement>
+    elements: Array<ButtonElement> | Array<StaticSelectElement>,
 ): Promise<ActionsBlock> {
     const block: ActionsBlock = {
-        type: "actions",
-        blockId: blockId,
-        elements: elements,
+        type: 'actions',
+        blockId,
+        elements,
     };
     return block;
 }
