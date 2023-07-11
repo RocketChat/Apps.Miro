@@ -84,7 +84,7 @@ export class MiroApp extends App {
 
     public async executeViewSubmitHandler(context: UIKitViewSubmitInteractionContext, read: IRead, http: IHttp, persistence: IPersistence, modify: IModify) {
         const handler = new ExecuteViewSubmitHandler(this, read, http, modify, persistence);
-        return await handler.run(this, context, read, http, persistence, modify);
+        return await handler.run(context);
       }
 
     protected async extendConfiguration(configuration: IConfigurationExtend): Promise<void> {
