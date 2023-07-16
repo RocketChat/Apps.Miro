@@ -1,6 +1,6 @@
 export enum MiscEnum {
     GET_BOARDS_BUTTON = 'Get Boards',
-    GET_BOARDS_ACTION_ID ='get-boards',
+    GET_BOARDS_ACTION_ID = 'get-boards',
     BOARD_ACTIONS_BLOCK = 'board-actions',
 	VIEW_BOARD_BUTTON = 'View',
     VIEW_BOARD_ACTION_ID = 'view-board',
@@ -11,5 +11,8 @@ export enum MiscEnum {
     DELETE_BOARD_BUTTON = 'Delete',
     DELETE_BOARD_ACTION_ID = 'delete-board',
     SUBSCRIBE_BOARD_BUTTON = 'Subscribe',
-    SUBSCRIBE_BOARD_ACTION_ID = 'subscribe-board'
+    SUBSCRIBE_BOARD_ACTION_ID = 'subscribe-board',
+    CREATE_BOARD_ACTION_ID = 'create-board',
+    ADD_BOARD_MEMBERS_BUTTON = 'Add Members',
+    ADD_BOARD_MEMBERS_ACTION_ID = 'add-board-members',
 }

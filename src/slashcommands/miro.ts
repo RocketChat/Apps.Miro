@@ -16,6 +16,7 @@ import { Texts } from '../enums/Texts';
 import { sendNotification } from '../lib/message';
 import { authorize } from './subcommands/authorize';
 import { getBoards } from './subcommands/getBoards';
+import { createBoard } from './subcommands/createBoard';
 
 export class Miro implements ISlashCommand {
     public command = 'miro-app';
@@ -52,6 +53,7 @@ export class Miro implements ISlashCommand {
                 );
                 break;
             case Subcommands.Auth:
+                console.log("in auth switch")
                 await authorize(
                     this.app,
                     read,
@@ -70,6 +72,17 @@ export class Miro implements ISlashCommand {
                     http,
                 );
                 break;
+            case Subcommands.CreateBoard:
+                await createBoard(
+                    this.app,
+                    read,
+                    modify,
+                    context,
+                    persistence,
+                    http,
+                );
+                break;
+            
             default:
                 await this.displayAppHelpMessage(
                     read,
