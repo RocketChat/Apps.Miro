@@ -14,8 +14,13 @@ export enum Texts {
     getSpecificBoardFailure = '❗️ Unable to retrieve board! \n Error ',
     createBoardSuccess = '✅️ Board created successfully! \n You may access it at ',
     createBoardFailure ='❗️ Unable to create board! \n Error ',
+    updateBoardFailure ='❗️ Unable to update board! \n Error ',
+    createSubscriptionSuccess = '✅️ Subscription created successfully!',
+    createSubscriptionFailure ='❗️ Unable to create subscription! \n Error ',
     deleteBoardSuccess = '✅️ Board deleted successfully!',
     deleteBoardFailure ='❗️ Unable to delete board! \n Error ',
+    deleteSubscriptionSuccess = '✅️ Subscription deleted successfully!',
+    deleteSubscriptionFailure ='❗️ Unable to delete subscription! \n Error ',
     addBoardMembersSuccess = '✅️ Board members invited successfully!',
     addBoardMembersFailure ='❗️ Unable to invite board members! \n Error ',
 }
