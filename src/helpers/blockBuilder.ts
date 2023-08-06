@@ -8,6 +8,9 @@ import {
     Option,
     SectionBlock,
     StaticSelectElement,
+    MultiUsersSelectElement,
+    MultiStaticSelectElement
+    
 } from '@rocket.chat/ui-kit';
 import { AppEnum } from '../enums/App';
 
@@ -162,12 +165,32 @@ export async function getOptions(text: string, value: string): Promise<Option> {
 
 export async function getActionsBlock(
     blockId: string,
-    elements: Array<ButtonElement> | Array<StaticSelectElement>,
+    elements: Array<ButtonElement> | Array<StaticSelectElement> | Array<MultiStaticSelectElement>,
 ): Promise<ActionsBlock> {
     const block: ActionsBlock = {
         type: 'actions',
         blockId,
         elements,
+    };
+    return block;
+}
+
+export async function getMultiStaticElement(
+    placeholderText: string,
+    options: Array<Option>,
+    blockId: string,
+    actionId: string
+): Promise<MultiStaticSelectElement> {
+    const block: MultiStaticSelectElement = {
+        type: 'multi_static_select',
+        placeholder: {
+            type: 'plain_text',
+            text: placeholderText,
+        },
+        options,
+        appId: AppEnum.APP_ID,
+        blockId,
+        actionId
     };
     return block;
 }

@@ -2,9 +2,9 @@ import { IHttp, IModify, IPersistence, IRead, IUIKitSurfaceViewParam } from '@ro
 import { SlashCommandContext } from '@rocket.chat/apps-engine/definition/slashcommands';
 import { UIKitInteractionContext, UIKitSurfaceType } from '@rocket.chat/apps-engine/definition/uikit';
 import { Block } from '@rocket.chat/ui-kit';
-import { ModalsEnum } from '../enums/Modals';
-import { getActionsBlock, getButton, getInputBox, getOptions, getSectionBlock, getStaticSelectElement } from '../helpers/blockBuilder';
-import { IGenericModal } from '../interfaces/external';
+import { ModalsEnum } from '../../enums/Modals';
+import { getActionsBlock, getButton, getInputBox, getOptions, getSectionBlock, getStaticSelectElement } from '../../helpers/blockBuilder';
+import { IGenericModal } from '../../interfaces/external';
 
 export async function getBoardsModal({ modify, read, persistence, http, slashcommandcontext, uikitcontext, data }: IGenericModal): Promise<IUIKitSurfaceViewParam> {
   const viewId = ModalsEnum.GET_BOARDS;
@@ -15,7 +15,7 @@ export async function getBoardsModal({ modify, read, persistence, http, slashcom
 
   data ? (title = `from team #${data?.split(',')[0]}`) : (title = '');
 
-  const teamIdInputBox = await getInputBox(ModalsEnum.QUERY_INPUT_LABEL, ModalsEnum.TEAM_ID_INPUT_LABEL_DEFAULT, ModalsEnum.TEAM_ID_BLOCK, ModalsEnum.TEAM_ID_INPUT, '');
+  const teamIdInputBox = await getInputBox(ModalsEnum.TEAM_ID_INPUT_LABEL, ModalsEnum.TEAM_ID_INPUT_LABEL_DEFAULT, ModalsEnum.TEAM_ID_BLOCK, ModalsEnum.TEAM_ID_INPUT, '');
 
   const projectIdInputBox = await getInputBox(ModalsEnum.PROJECT_ID_INPUT_LABEL, ModalsEnum.PROJECT_ID_INPUT_LABEL_DEFAULT, ModalsEnum.PROJECT_ID_BLOCK, ModalsEnum.PROJECT_ID_INPUT, '');
 

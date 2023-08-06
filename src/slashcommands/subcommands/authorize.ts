@@ -17,11 +17,12 @@ export async function authorize(
     user: IUser,
     persistence: IPersistence,
 ): Promise<void> {
+    console.log("getting into auth fn top")
     const url = await app
         .getOauth2ClientInstance()
         .getUserAuthorizationUrl(user);
     const block: Array<Block> = [];
-
+    console.log("getting into auth fn")
     const authButton = await getButton(
         'Authorize',
         '',
