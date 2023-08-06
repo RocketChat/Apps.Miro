@@ -1,11 +1,7 @@
 import { IHttp, IModify, IPersistence, IRead } from '@rocket.chat/apps-engine/definition/accessors';
-import { IApp } from '@rocket.chat/apps-engine/definition/IApp';
-import { SlashCommandContext } from '@rocket.chat/apps-engine/definition/slashcommands';
 import { IUIKitResponse, UIKitBlockInteractionContext } from '@rocket.chat/apps-engine/definition/uikit';
-import { UIKitInteractionContext } from '@rocket.chat/apps-engine/definition/uikit';
 import { MiscEnum } from '../enums/Misc';
 import { deleteBoard } from '../api/boards/deleteBoard';
-// import { editBoard } from '../lib/get/editBoard';
 import { getBoardDataById, shareBoard } from '../api/boards/getSpecificBoard';
 import { getUIData } from '../lib/persistence';
 import { MiroApp } from '../../MiroApp';

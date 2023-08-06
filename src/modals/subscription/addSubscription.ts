@@ -9,7 +9,7 @@ import { IGenericModal } from "../../interfaces/external";
 
 export async function addSubscriptionModal({ modify, read, persistence, http, slashcommandcontext, uikitcontext, data }: IGenericModal): Promise<IUIKitSurfaceViewParam> {
     const viewId = ModalsEnum.ADD_SUBSCRIPTION
-    const board_id = data;
+    let board_id, board_name = data.split('|');
     const block: Block[] = [];
     const room = slashcommandcontext?.getRoom() || uikitcontext?.getInteractionData().room;
     const user = slashcommandcontext?.getSender() || uikitcontext?.getInteractionData().user;
@@ -18,7 +18,9 @@ export async function addSubscriptionModal({ modify, read, persistence, http, sl
         block.push(textSectionBlock);
     }
     let boardIdInputBox = await getInputBox(ModalsEnum.BOARD_ID_LABEL, ModalsEnum.BOARD_ID_PLACEHOLDER, ModalsEnum.BOARD_ID_BLOCK, ModalsEnum.BOARD_ID_INPUT, board_id || "");
-    block.push(boardIdInputBox);
+    let boardNameInputBox = await getInputBox(ModalsEnum.BOARD_NAME_LABEL, ModalsEnum.BOARD_NAME_PLACEHOLDER, ModalsEnum.BOARD_NAME_BLOCK, ModalsEnum.BOARD_NAME_INPUT, board_name || "");
+
+    block.push(boardIdInputBox,boardNameInputBox);
     
     let dividerBlock = await getDividerBlock();
     block.push(dividerBlock);

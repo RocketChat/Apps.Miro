@@ -1,6 +1,5 @@
 import { IHttp, IModify, IPersistence, IRead } from '@rocket.chat/apps-engine/definition/accessors';
-import { SlashCommandContext } from '@rocket.chat/apps-engine/definition/slashcommands';
-import { UIKitInteractionContext , UIKitViewSubmitInteractionContext} from '@rocket.chat/apps-engine/definition/uikit';
+import { UIKitViewSubmitInteractionContext} from '@rocket.chat/apps-engine/definition/uikit';
 import { MiroApp } from '../../MiroApp';
 import { getBoards } from '../api/boards/getBoards';
 import { createBoard } from '../api/boards/createBoard';

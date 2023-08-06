@@ -5,13 +5,15 @@ import { ModalsEnum } from '../../enums/Modals';
 import { Texts } from '../../enums/Texts';
 import { ISubmitGenericAPIFunctionParams } from '../../interfaces/external';
 import { getWebhookSubscriptionUrl, getWebhookUrl } from '../../lib/const';
-import { getAccessTokenForUser } from '../../storage/users';
+import { getAccessTokenForUser, retrieveUserByRocketChatUserIdAsync } from '../../storage/users';
+import { Subscription } from '../../storage/subscriptions';
 
 export async function createSubscription({app, context, data, room, read, persistence, modify, http }: ISubmitGenericAPIFunctionParams) {
     const state = data.view.state;
     const user: IUser = context.getInteractionData().user;
     const token = await getAccessTokenForUser(read, user);
     const board_id = state?.[ModalsEnum.BOARD_ID_BLOCK]?.[ModalsEnum.BOARD_ID_INPUT];
+    const board_name = state?.[ModalsEnum.BOARD_NAME_BLOCK]?.[ModalsEnum.BOARD_NAME_INPUT];
     const accessors = app?.getAccessors();
     const callbackUrl = getWebhookUrl(accessors!, MiscEnum.API_INCOMING_ENDPOINT);
     const headers = {
@@ -26,6 +28,13 @@ export async function createSubscription({app, context, data, room, read, persis
     const response = await http.post(url, { headers, data: body });
 
     if (response.statusCode == HttpStatusCode.CREATED) {
+        let data: any = response.data;
+        let webhookId = data.id;
+        let boardId = data.data.boardId;
+        let rcUser = await retrieveUserByRocketChatUserIdAsync(read, user.id);
+        
+        let subscriptionStorage = new Subscription(persistence, read.getPersistenceReader());
+        subscriptionStorage.createSubscription(board_name, boardId, webhookId, user.id, rcUser?.miroUserId!)
         const textSender = await modify.getCreator().startMessage().setText(Texts.createSubscriptionSuccess + response.data.message);
         if (room) {
             textSender.setRoom(room);

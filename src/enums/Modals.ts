@@ -33,6 +33,8 @@ export enum ModalsEnum {
     OWNER_ID_INPUT_LABEL_DEFAULT = 'enter the owner ID here',
     OWNER_ID_INPUT = 'owner-id',
     GET_BOARDS_SUBMIT_BUTTON_LABEL = 'Get Boards',
+    BOARD_NAME_LABEL = 'Board Name',
+    BOARD_NAME_PLACEHOLDER = 'enter the board name here',
     BOARD_NAME_BLOCK = 'board-name-block',
     BOARD_NAME_INPUT_LABEL = 'Board Name',
     BOARD_NAME_INPUT_LABEL_DEFAULT = 'enter the board name here',
