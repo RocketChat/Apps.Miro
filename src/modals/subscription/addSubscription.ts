@@ -7,11 +7,12 @@ import { IGenericModal } from "../../interfaces/external";
 
 export async function addSubscriptionModal({ app, modify, read, persistence, http, slashcommandcontext, uikitcontext, data }: IGenericModal): Promise<IUIKitSurfaceViewParam> {
     const viewId = ModalsEnum.ADD_SUBSCRIPTION
-    let board_id, board_name = data.split('|');
+    let board_id = data.value.split('|')[0];
+    let board_name = data.value.split('|')[1];
     const block: Block[] = [];
     const room = slashcommandcontext?.getRoom() || uikitcontext?.getInteractionData().room;
     const user = slashcommandcontext?.getSender() || uikitcontext?.getInteractionData().user;
-    if (!data) {
+    if (!data.value) {
         const textSectionBlock = await getSectionBlock("This is the naive way to subscribe to board notifications! \nPlease use get-boards subcommand to auto-fill board id!");
         block.push(textSectionBlock);
     }

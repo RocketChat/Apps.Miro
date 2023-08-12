@@ -12,6 +12,7 @@ import { ModalsEnum } from '../enums/Modals';
 import { deleteSubscriptionModal } from '../modals/subscription/deleteSubscription';
 import { deleteSubscription } from '../api/subscriptions/deleteSubscription';
 import { editBoardModal } from '../modals/boards/editBoardModal';
+import { embedBoardToRoom, removeEmbeddedBoardFromRoom } from '../api/boards/getoEmbedData';
 
 export class ExecuteBlockActionHandler {
     constructor(
@@ -48,15 +49,21 @@ export class ExecuteBlockActionHandler {
                     await deleteBoard({ app: this.app, context, data, room, read: this.read, persistence: this.persistence, modify: this.modify, http: this.http });
                     return context.getInteractionResponder().successResponse();
                 case MiscEnum.SUBSCRIBE_BOARD_ACTION_ID:
-                    const Subscriptionmodal = await addSubscriptionModal({ app: this.app, modify: this.modify, read: this.read, persistence: this.persistence,  http: this.http, uikitcontext: context, data });
-                    return context.getInteractionResponder().openModalViewResponse(Subscriptionmodal);
+                    const subscriptionModal = await addSubscriptionModal({ app: this.app, modify: this.modify, read: this.read, persistence: this.persistence,  http: this.http, uikitcontext: context, data });
+                    return context.getInteractionResponder().openModalViewResponse(subscriptionModal);
+                case MiscEnum.EMBED_BOARD_ACTION_ID:
+                    await embedBoardToRoom({ modify: this.modify, read: this.read, persistence: this.persistence, data, room });
+                    return context.getInteractionResponder().successResponse();
+                case MiscEnum.REMOVE_BOARD_EMBEDDING_ACTION_ID:
+                    await removeEmbeddedBoardFromRoom({ modify: this.modify, read: this.read, persistence: this.persistence, data, room });
+                    return context.getInteractionResponder().successResponse();
                 case ModalsEnum.OPEN_ADD_SUBSCRIPTIONS_MODAL:
-                    const addSubscriptionmodal = await addSubscriptionModal({ app: this.app, modify: this.modify, read: this.read, persistence: this.persistence,  http: this.http, uikitcontext: context, data });
-                    return context.getInteractionResponder().openModalViewResponse(addSubscriptionmodal);
+                    const openSubscriptionModal = await addSubscriptionModal({ app: this.app, modify: this.modify, read: this.read, persistence: this.persistence,  http: this.http, uikitcontext: context, data });
+                    return context.getInteractionResponder().openModalViewResponse(openSubscriptionModal);
                   case ModalsEnum.OPEN_DELETE_SUBSCRIPTIONS_MODAL:
                     const deleteSubscriptionmodal = await deleteSubscriptionModal({ app: this.app, modify: this.modify, read: this.read, persistence: this.persistence,  http: this.http, uikitcontext: context, data });
                     return context.getInteractionResponder().openModalViewResponse(deleteSubscriptionmodal);
-                  case ModalsEnum.DELETE_SUBSCRIPTION_ACTION:
+                  case MiscEnum.DELETE_SUBSCRIPTION_ACTION_ID:
                     await deleteSubscription({ app: this.app, context, data, room, modify: this.modify, read: this.read, persistence: this.persistence,  http: this.http });
                     break;
                   case ModalsEnum.SUBSCRIPTION_REFRESH_ACTION:

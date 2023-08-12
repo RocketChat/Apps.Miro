@@ -1,8 +1,8 @@
 import { ButtonStyle } from '@rocket.chat/apps-engine/definition/uikit';
-import { PreviewBlockWithPreview } from "@rocket.chat/ui-kit";
+import { PreviewBlockWithPreview, ToggleSwitchElement } from "@rocket.chat/ui-kit";
 import { LayoutBlockType } from "@rocket.chat/ui-kit/dist/esm/blocks/LayoutBlockType";
 
-import { ActionsBlock, ButtonElement, ContextBlock, DividerBlock, InputBlock, Option, SectionBlock, StaticSelectElement, MultiStaticSelectElement } from '@rocket.chat/ui-kit';
+import { ActionsBlock, ButtonElement, ContextBlock, DividerBlock, InputBlock, Option, SectionBlock, StaticSelectElement, MultiStaticSelectElement, CheckboxElement } from '@rocket.chat/ui-kit';
 import { AppEnum } from '../enums/App';
 import { IOEmbedResponse } from '../interfaces/external';
 
@@ -148,7 +148,32 @@ export async function getMultiStaticElement(placeholderText: string, options: Ar
     return block;
 }
 
+export async function getCheckBoxElement(options: Array<Option>, initialOptions: Array<Option>, blockId: string, actionId: string): Promise<CheckboxElement> {
+    const block: CheckboxElement = {
+        type: 'checkbox',
+        options,
+        initialOptions,
+        appId: AppEnum.APP_ID,
+        blockId,
+        actionId
+    };
+    return block;
+}
+
+export async function getToggleSwitchElement(options: Array<Option>, initialOptions: Array<Option>, blockId: string, actionId: string): Promise<ToggleSwitchElement> {
+    const block: ToggleSwitchElement = {
+        type: 'toggle_switch',
+        options,
+        initialOptions,
+        appId: AppEnum.APP_ID,
+        blockId,
+        actionId
+    };
+    return block;
+}
+
 export async function getPreviewBlock(oEmbedResponse: IOEmbedResponse) {
+    const iframeSrc = oEmbedResponse.html.match(/src="([^"]+)"/)?.[1] || '';
     const block: PreviewBlockWithPreview = {
         preview: {
             url: oEmbedResponse.thumbnail_url,
@@ -166,7 +191,7 @@ export async function getPreviewBlock(oEmbedResponse: IOEmbedResponse) {
         ],
         description: [],
         externalUrl: oEmbedResponse.provider_url,
-        oembedUrl: oEmbedResponse.html,
+        oembedUrl: iframeSrc,
         thumb: undefined,
     };
     return block;

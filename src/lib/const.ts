@@ -7,6 +7,7 @@ export const AuthenticationEndpointPath: string = 'auth';
 export const SubscriberEndpointPath: string = 'subscriber';
 
 const APIBaseDomain: string = 'https://api.miro.com';
+const APIDomainRoute: string = 'https://miro.com/api';
 const APIVersionReference = {
     V1: 'v1',
     V2: 'v2',
@@ -80,7 +81,7 @@ export const getSubscriptionUrl = (subscription_id: string) => {
 };
 
 export const getoEmbedDataUrl = (board_url: string) => {
-    return `${APIBaseDomain}/${APIVersionReference.V1}/${MiroApiEndpoint.oEmbed}?url=${board_url}`;
+    return `${APIDomainRoute}/${APIVersionReference.V1}/${MiroApiEndpoint.oEmbed}?url=${board_url}`;
 };
 
 export const TestEnvironment = {

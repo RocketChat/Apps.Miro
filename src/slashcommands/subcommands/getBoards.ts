@@ -8,7 +8,7 @@ export async function getBoards(app: MiroApp, read: IRead, modify: IModify, cont
   const triggerId = context.getTriggerId();
   if (triggerId) {
     await persistUIData(persistence, context.getSender().id, context);
-    const modal = await getBoardsModal({ modify, read, persistence, http, slashcommandcontext: context });
+    const modal = await getBoardsModal({ app, modify, read, persistence, http, slashcommandcontext: context });
     await modify.getUiController().openSurfaceView(modal, { triggerId }, context.getSender());
   } else {
     this.app.getLogger().error('Invalid Trigger ID');

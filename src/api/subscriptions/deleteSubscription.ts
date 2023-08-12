@@ -15,14 +15,15 @@ export async function deleteSubscription({ app, context, data, room, read, persi
     };
     const url = getSubscriptionUrl(subscription_id!);
     const response = await http.del(url, { headers });;
-
-    if (response.statusCode == HttpStatusCode.NO_CONTENT) {
-        let subscriptionStorage = new Subscription(persistence!, read.getPersistenceReader());
-        subscriptionStorage.deleteSubscription(subscription_id!)
-        const textSender = await modify.getCreator().startMessage().setText(Texts.deleteSubscriptionSuccess + response.data.message);
+    console.log(response)
+    if (response.statusCode == HttpStatusCode.NO_CONTENT || response.statusCode == HttpStatusCode.NOT_FOUND) {
+        const textSender = await modify.getCreator().startMessage().setText(Texts.deleteSubscriptionSuccess);
         if (room) {
             textSender.setRoom(room);
         }
+        await modify.getCreator().finish(textSender);
+        let subscriptionStorage = new Subscription(persistence!, read.getPersistenceReader());
+        await subscriptionStorage.deleteSubscription(subscription_id!)
     } else {
         const textSender = await modify.getCreator().startMessage().setText(Texts.deleteSubscriptionFailure + response.data.message);
     if (room) {

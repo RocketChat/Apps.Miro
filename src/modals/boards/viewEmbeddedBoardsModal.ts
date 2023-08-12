@@ -9,23 +9,23 @@ import { EmbeddedBoards } from "../../storage/embeddedBoards";
 import { IEmbeddedBoard } from "../../interfaces/external";
 import { MiscEnum } from '../../enums/Misc';
 import { getoEmbedDataByBoardUrl } from '../../api/boards/getoEmbedData';
+import { ButtonStyle } from '@rocket.chat/apps-engine/definition/uikit';
 
 export async function viewEmbeddedBoardsModal({ app, modify, read, persistence, http, actionbuttoncontext, data }: IGenericModal): Promise<IUIKitSurfaceViewParam> {
-  const viewId = ModalsEnum.CREATE_BOARD;
+  const viewId = ModalsEnum.VIEW_EMBEDDED_BOARDS;
   const block: Array<Block> = [];
   const room = actionbuttoncontext?.getInteractionData().room!
   let embeddedBoardsStorage = new EmbeddedBoards(persistence, read.getPersistenceReader());
   let roomEmbeddedBoards: Array<IEmbeddedBoard> = await embeddedBoardsStorage.getEmbeddedBoards(room.id);
-
   let index = 1;
     for (let board of roomEmbeddedBoards) {
       let boardName = board.boardName;
       let boardId = board.boardId;
       let boardUrl = board.boardUrl;
-      let boardPreview = await getoEmbedDataByBoardUrl(boardUrl);
-    //   let viewBoardButton = await getButton(MiscEnum.VIEW_BOARD_BUTTON, "", MiscEnum.VIEW_BOARD_ACTION_ID, `${boardId}`, ButtonStyle.PRIMARY, getBoardViewUrlFromId(boardId));
-    //   let boardSectionBlock = await getSectionBlock(`${index}) ${boardName}`, viewBoardButton);  
-      block.push(boardPreview);
+      let boardPreview = await getoEmbedDataByBoardUrl({app: app, context: actionbuttoncontext, http: http, data: boardUrl});
+      let removeBoardEmbedButton = await getButton(MiscEnum.REMOVE_BOARD_EMBEDDING_BUTTON, "", MiscEnum.REMOVE_BOARD_EMBEDDING_ACTION_ID, `${room.id}|${boardUrl}`, ButtonStyle.DANGER);
+      let boardSectionBlock = await getSectionBlock(`${index}) ${boardName}`, removeBoardEmbedButton);  
+      block.push(boardSectionBlock, boardPreview);
       index++;
     }
   const closeButton = await getButton('Close', '', '');

@@ -23,4 +23,6 @@ export enum Texts {
     deleteSubscriptionFailure ='❗️ Unable to delete subscription! \n Error ',
     addBoardMembersSuccess = '✅️ Board members invited successfully!',
     addBoardMembersFailure ='❗️ Unable to invite board members! \n Error ',
+    embedBoardSuccess = '✅️ Board embedded to current room successfully!',
+    removeEmbeddedBoardSuccess ='✅️ Board removed from current room.',
 }

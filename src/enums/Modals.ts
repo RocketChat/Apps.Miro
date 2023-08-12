@@ -74,5 +74,7 @@ export enum ModalsEnum {
     UPDATE_SUBSCRIPTION_LABEL= 'Update',
     DELETE_SUBSCIPTIONS_TITLE= 'Unsubscribe to Boards',
     ADD_SUBSCIPTIONS_TITLE= 'New Subscription',
-    VIEW_EMBEDDED_BOARD_MODAL_NAME= 'Embedded Boards'
+    VIEW_EMBEDDED_BOARD_MODAL_NAME= 'Embedded Boards',
+    ROOM_REQUIRED_BLOCK = 'room-required-block',
+    ROOM_REQUIRED_ACTION_ID = 'room-required-toggle',
 }

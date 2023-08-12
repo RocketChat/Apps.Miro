@@ -85,7 +85,12 @@ export class MiroApp extends App {
             actionId: MiscEnum.CREATE_BOARD_ACTION_ID,
             labelI18n: 'create-board-label',
             context: UIActionButtonContext.ROOM_ACTION
-          });
+        });
+        configuration.ui.registerButton({
+            actionId: MiscEnum.VIEW_EMBEDDED_BOARDS_ACTION_ID,
+            labelI18n: 'view-embedded-boards-label',
+            context: UIActionButtonContext.ROOM_ACTION
+        });
         configuration.api.provideApi({
         visibility: ApiVisibility.PUBLIC,
         security: ApiSecurity.UNSECURE,

@@ -24,9 +24,9 @@ export async function deleteSubscriptionModal({ modify, read, persistence, http,
       let boardName = subscription.boardName;
       let boardId = subscription.boardId;
       let webhookId = subscription.webhookId;
-      let deleteBoardButton = await getButton(MiscEnum.VIEW_BOARD_BUTTON, "", MiscEnum.VIEW_BOARD_ACTION_ID, `${boardId}`, ButtonStyle.PRIMARY, webhookId);
+      let deleteBoardButton = await getButton(MiscEnum.DELETE_SUBSCRIPTION_BUTTON, "", MiscEnum.DELETE_SUBSCRIPTION_ACTION_ID, webhookId, ButtonStyle.DANGER);
       let boardSectionBlock = await getSectionBlock(`${index}) ${boardName}`, deleteBoardButton);
-      block.push(boardSectionBlock);
+      block.push(deleteBoardButton, boardSectionBlock);
       index++;
     }
 
@@ -37,7 +37,7 @@ export async function deleteSubscriptionModal({ modify, read, persistence, http,
     type: UIKitSurfaceType.MODAL,
     title: {
         type: "plain_text",
-        text: ModalsEnum.ADD_SUBSCIPTIONS_TITLE,
+        text: ModalsEnum.DELETE_SUBSCIPTIONS_TITLE,
     },
     close: closeButton,
     blocks: block,
