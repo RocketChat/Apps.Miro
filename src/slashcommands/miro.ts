@@ -17,6 +17,7 @@ import { sendNotification } from '../lib/message';
 import { authorize } from './subcommands/authorize';
 import { getBoards } from './subcommands/getBoards';
 import { createBoard } from './subcommands/createBoard';
+import { manageSubscriptions } from './subcommands/manageSubscriptions';
 
 export class Miro implements ISlashCommand {
     public command = 'miro-app';
@@ -26,87 +27,40 @@ export class Miro implements ISlashCommand {
 
     constructor(private readonly app: MiroApp) {}
 
-    public async executor(
-        context: SlashCommandContext,
-        read: IRead,
-        modify: IModify,
-        http: IHttp,
-        persistence: IPersistence,
-    ): Promise<void> {
+    public async executor(context: SlashCommandContext, read: IRead, modify: IModify, http: IHttp, persistence: IPersistence): Promise<void> {
         const command = this.getCommandFromContextArguments(context);
         if (!command) {
-            return await this.displayAppHelpMessage(
-                read,
-                modify,
-                context.getSender(),
-                context.getRoom(),
-            );
+            return await this.displayAppHelpMessage(read, modify, context.getSender(), context.getRoom());
         }
 
         switch (command) {
             case Subcommands.Help:
-                await this.displayAppHelpMessage(
-                    read,
-                    modify,
-                    context.getSender(),
-                    context.getRoom(),
-                );
+                await this.displayAppHelpMessage(read, modify, context.getSender(), context.getRoom());
                 break;
             case Subcommands.Auth:
-                console.log("in auth switch")
-                await authorize(
-                    this.app,
-                    read,
-                    modify,
-                    context.getSender(),
-                    persistence,
-                );
+                await authorize(this.app, read, modify, context.getSender(), persistence);
                 break;
             case Subcommands.GetBoards:
-                await getBoards(
-                    this.app,
-                    read,
-                    modify,
-                    context,
-                    persistence,
-                    http,
-                );
+                await getBoards(this.app, read, modify, context, persistence, http);
                 break;
             case Subcommands.CreateBoard:
-                await createBoard(
-                    this.app,
-                    read,
-                    modify,
-                    context,
-                    persistence,
-                    http,
-                );
+                await createBoard(this.app, read, modify, context, persistence, http);
                 break;
-            
+            case Subcommands.ManageSubscriptions:
+                await manageSubscriptions(this.app, read, modify, context, persistence, http);
+                break;
             default:
-                await this.displayAppHelpMessage(
-                    read,
-                    modify,
-                    context.getSender(),
-                    context.getRoom(),
-                );
+                await this.displayAppHelpMessage(read, modify, context.getSender(), context.getRoom());
                 break;
         }
     }
 
-    private getCommandFromContextArguments(
-        context: SlashCommandContext,
-    ): string {
+    private getCommandFromContextArguments(context: SlashCommandContext): string {
         const [command] = context.getArguments();
         return command;
     }
 
-    private async displayAppHelpMessage(
-        read: IRead,
-        modify: IModify,
-        user: IUser,
-        room: IRoom,
-    ): Promise<void> {
+    private async displayAppHelpMessage(read: IRead, modify: IModify, user: IUser, room: IRoom): Promise<void> {
         const text = Texts.Help;
 
         return sendNotification(read, modify, user, room, text);

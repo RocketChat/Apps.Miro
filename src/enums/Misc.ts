@@ -16,4 +16,5 @@ export enum MiscEnum {
     CREATE_BOARD_ACTION_ID = 'create-board',
     ADD_BOARD_MEMBERS_BUTTON = 'Add Members',
     ADD_BOARD_MEMBERS_ACTION_ID = 'add-board-members',
+    VIEW_EMBEDDED_BOARDS_ACTION_ID = 'view-embedded-boards'
 }

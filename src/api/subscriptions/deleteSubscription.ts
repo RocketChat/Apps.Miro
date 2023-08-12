@@ -6,9 +6,9 @@ import { getSubscriptionUrl } from '../../lib/const';
 import { getAccessTokenForUser } from '../../storage/users';
 import { Subscription } from '../../storage/subscriptions';
 
-export async function deleteSubscription({context, data, room, read, persistence, modify, http }: IBlockGenericAPIFunctionParams) {
+export async function deleteSubscription({ app, context, data, room, read, persistence, modify, http }: IBlockGenericAPIFunctionParams) {
     const user: IUser = context.getInteractionData().user;
-    const token = await getAccessTokenForUser(read, user);
+    const token = await app.getOauth2ClientInstance().getAccessTokenForUser(user);
     const subscription_id = context.getInteractionData().value;
     const headers = {
         Authorization: `Bearer ${token?.token}`,
@@ -17,7 +17,7 @@ export async function deleteSubscription({context, data, room, read, persistence
     const response = await http.del(url, { headers });;
 
     if (response.statusCode == HttpStatusCode.NO_CONTENT) {
-        let subscriptionStorage = new Subscription(persistence, read.getPersistenceReader());
+        let subscriptionStorage = new Subscription(persistence!, read.getPersistenceReader());
         subscriptionStorage.deleteSubscription(subscription_id!)
         const textSender = await modify.getCreator().startMessage().setText(Texts.deleteSubscriptionSuccess + response.data.message);
         if (room) {

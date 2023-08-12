@@ -8,10 +8,10 @@ import { getWebhookSubscriptionUrl, getWebhookUrl } from '../../lib/const';
 import { getAccessTokenForUser, retrieveUserByRocketChatUserIdAsync } from '../../storage/users';
 import { Subscription } from '../../storage/subscriptions';
 
-export async function createSubscription({app, context, data, room, read, persistence, modify, http }: ISubmitGenericAPIFunctionParams) {
+export async function createSubscription({ app, context, data, room, read, persistence, modify, http }: ISubmitGenericAPIFunctionParams) {
     const state = data.view.state;
     const user: IUser = context.getInteractionData().user;
-    const token = await getAccessTokenForUser(read, user);
+    const token = await app.getOauth2ClientInstance().getAccessTokenForUser(user);
     const board_id = state?.[ModalsEnum.BOARD_ID_BLOCK]?.[ModalsEnum.BOARD_ID_INPUT];
     const board_name = state?.[ModalsEnum.BOARD_NAME_BLOCK]?.[ModalsEnum.BOARD_NAME_INPUT];
     const accessors = app?.getAccessors();

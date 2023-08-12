@@ -13,10 +13,10 @@ import { ISubmitGenericAPIFunctionParams } from '../../interfaces/external';
 import { getBoardsUrl } from '../../lib/const';
 import { getAccessTokenForUser } from '../../storage/users';
 
-export async function getBoards({ context, data, room, read, persistence, modify, http }: ISubmitGenericAPIFunctionParams) {
+export async function getBoards({ app, context, data, room, read, persistence, modify, http }: ISubmitGenericAPIFunctionParams) {
   const state = data.view.state;
   const user: IUser = context.getInteractionData().user;
-  const token = await getAccessTokenForUser(read, user);
+  const token = await app.getOauth2ClientInstance().getAccessTokenForUser(user);
   const team_id = state?.[ModalsEnum.TEAM_ID_BLOCK]?.[ModalsEnum.TEAM_ID_INPUT];
   const project_id = state?.[ModalsEnum.PROJECT_ID_BLOCK]?.[ModalsEnum.PROJECT_ID_INPUT];
   const owner_id = state?.[ModalsEnum.OWNER_ID_BLOCK]?.[ModalsEnum.OWNER_ID_INPUT];

@@ -2,7 +2,7 @@ import { IUIKitSurfaceViewParam } from '@rocket.chat/apps-engine/definition/acce
 import { UIKitSurfaceType } from '@rocket.chat/apps-engine/definition/uikit';
 import { Block } from '@rocket.chat/ui-kit';
 import { ModalsEnum } from '../../enums/Modals';
-import { getButton, getInputBox, getMultiStaticElement, getOptions, getSectionBlock, getStaticSelectElement } from '../../helpers/blockBuilder';
+import { getButton, getInputBox, getSectionBlock } from '../../helpers/blockBuilder';
 import { IBlockGenericAPIFunctionParams } from '../../interfaces/external';
 
 export async function editBoardModal({ context, data, modify, read, persistence, http, extra }: IBlockGenericAPIFunctionParams): Promise<IUIKitSurfaceViewParam> {

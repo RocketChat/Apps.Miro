@@ -1,12 +1,10 @@
-import { IHttp, IModify, IPersistence, IRead, IUIKitSurfaceViewParam } from '@rocket.chat/apps-engine/definition/accessors';
-import { SlashCommandContext } from '@rocket.chat/apps-engine/definition/slashcommands';
-import { UIKitInteractionContext, UIKitSurfaceType } from '@rocket.chat/apps-engine/definition/uikit';
+import { IRead, IUIKitSurfaceViewParam } from '@rocket.chat/apps-engine/definition/accessors';
+import { UIKitBlockInteractionContext, UIKitSurfaceType } from '@rocket.chat/apps-engine/definition/uikit';
 import { Block, Option } from '@rocket.chat/ui-kit';
 import { ModalsEnum } from '../../enums/Modals';
-import { getActionsBlock, getButton, getInputBox, getMultiStaticElement, getOptions, getSectionBlock, getStaticSelectElement } from '../../helpers/blockBuilder';
-import { IBlockGenericAPIFunctionParams } from '../../interfaces/external';
+import { getActionsBlock, getButton, getMultiStaticElement, getOptions, getSectionBlock, getStaticSelectElement } from '../../helpers/blockBuilder';
 
-export async function addBoardMembersModal({ context, data, modify, read, persistence, http }: IBlockGenericAPIFunctionParams): Promise<IUIKitSurfaceViewParam> {
+export async function addBoardMembersModal({ context, read }: { context: UIKitBlockInteractionContext, read: IRead}): Promise<IUIKitSurfaceViewParam> {
   const viewId = ModalsEnum.ADD_BOARD_MEMBERS;
   const block: Array<Block> = [];
   let board_id = context?.getInteractionData().value;

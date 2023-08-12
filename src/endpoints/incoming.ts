@@ -1,5 +1,5 @@
 import { ApiEndpoint } from "@rocket.chat/apps-engine/definition/api";
-import { IRead, IHttp, IModify, IPersistence } from "@rocket.chat/apps-engine/definition/accessors";
+import { IRead, IHttp, IModify, IPersistence, HttpStatusCode } from "@rocket.chat/apps-engine/definition/accessors";
 import { IApiEndpointInfo, IApiEndpoint, IApiRequest, IApiResponse } from "@rocket.chat/apps-engine/definition/api";
 import { retrieveSubscribedUsersByBoardIdAsync, retrieveUserBymiroUserIdAsync } from "../storage/users";
 import { sendDirectMessage } from "../lib/message";
@@ -28,9 +28,11 @@ export class miroWebhook extends ApiEndpoint {
                         await sendDirectMessage(read, modify, user, msg_to_user, persis);
                     }
                 }
-                break;
+                return this.json({'content': payload, 'headers': {'content-type': 'application/json'}, 'status': HttpStatusCode.OK})
+                
             default:
-                break;
+                return this.json({'content': payload, 'headers': {'content-type': 'application/json'}, 'status': HttpStatusCode.OK})
+                
 
         }
         return this.success();

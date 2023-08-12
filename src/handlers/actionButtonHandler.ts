@@ -3,6 +3,7 @@ import { IUIKitResponse, UIKitActionButtonInteractionContext, UIKitBlockInteract
 import { MiscEnum } from '../enums/Misc';
 import { MiroApp } from '../../MiroApp';
 import { createBoardModal } from '../modals/boards/createBoardModal';
+import { viewEmbeddedBoardsModal } from '../modals/boards/viewEmbeddedBoardsModal';
 
 export class ExecuteActionButtonHandler {
     constructor(
@@ -15,12 +16,15 @@ export class ExecuteActionButtonHandler {
 
     public async run(context: UIKitActionButtonInteractionContext): Promise<IUIKitResponse> {
         const { room, user, actionId, triggerId } = context.getInteractionData();
-        console.log("getting into action button handler")
         try {
             switch (actionId) {
                 case MiscEnum.CREATE_BOARD_ACTION_ID:
-                    const modal = await createBoardModal({  modify: this.modify, read: this.read, persistence: this.persistence,  http: this.http, actionbuttoncontext: context });
-                    await this.modify.getUiController().openSurfaceView(modal, { triggerId }, user);
+                    const create_board_modal = await createBoardModal({ app: this.app, modify: this.modify, read: this.read, persistence: this.persistence,  http: this.http, actionbuttoncontext: context });
+                    await this.modify.getUiController().openSurfaceView(create_board_modal, { triggerId }, user);
+                    return context.getInteractionResponder().successResponse();
+                case MiscEnum.VIEW_EMBEDDED_BOARDS_ACTION_ID:
+                    const view_embedded_modal = await viewEmbeddedBoardsModal({ app: this.app, modify: this.modify, read: this.read, persistence: this.persistence,  http: this.http, actionbuttoncontext: context });
+                    await this.modify.getUiController().openSurfaceView(view_embedded_modal, { triggerId }, user);
                     return context.getInteractionResponder().successResponse();
                 default:
                     break;

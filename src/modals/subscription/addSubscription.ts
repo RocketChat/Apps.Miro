@@ -1,13 +1,11 @@
-import { IHttp, IModify, IPersistence, IRead, IUIKitSurfaceViewParam } from "@rocket.chat/apps-engine/definition/accessors";
+import { IUIKitSurfaceViewParam } from "@rocket.chat/apps-engine/definition/accessors";
 import { ModalsEnum } from "../../enums/Modals";
-import { SlashCommandContext } from "@rocket.chat/apps-engine/definition/slashcommands";
-import { UIKitInteractionContext, UIKitSurfaceType } from "@rocket.chat/apps-engine/definition/uikit";
-
+import { UIKitSurfaceType } from "@rocket.chat/apps-engine/definition/uikit";
 import { Block } from "@rocket.chat/ui-kit";
 import { getButton, getDividerBlock, getInputBox, getSectionBlock } from "../../helpers/blockBuilder";
 import { IGenericModal } from "../../interfaces/external";
 
-export async function addSubscriptionModal({ modify, read, persistence, http, slashcommandcontext, uikitcontext, data }: IGenericModal): Promise<IUIKitSurfaceViewParam> {
+export async function addSubscriptionModal({ app, modify, read, persistence, http, slashcommandcontext, uikitcontext, data }: IGenericModal): Promise<IUIKitSurfaceViewParam> {
     const viewId = ModalsEnum.ADD_SUBSCRIPTION
     let board_id, board_name = data.split('|');
     const block: Block[] = [];
