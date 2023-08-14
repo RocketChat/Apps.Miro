@@ -1,10 +1,10 @@
 export enum Texts {
-    Help = `Miro App provides you the following slash commands, /miro-app:
-    1) *help:* shows this list.
-    2) *auth:* starts the process to authorize your Miro Account.
-    3) *get:* for retreiving your boards from Miro.
-    4) *create:8 for creating a board on Miro.
-    5) *manage:* for managing your board notifications subscriptions.`,
+    Help = `Miro App provides you the following slash commands, \`/miro-app\`:
+    1) **help:** shows this list.
+    2) **auth:** starts the process to authorize your Miro Account.
+    3) **get:** for retreiving your boards from Miro.
+    4) **create:** for creating a board on Miro.
+    5) **manage:** for managing your board notifications subscriptions.`,
     Auth = 'auth',
     QuickReminder = 'Quick reminder: Let your workspace users know about the Miro App,\
     so everyone will be able to manage their boards as well.\n',
