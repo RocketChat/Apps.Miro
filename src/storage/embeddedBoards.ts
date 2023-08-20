@@ -1,9 +1,10 @@
 import { IPersistence, IPersistenceRead } from '@rocket.chat/apps-engine/definition/accessors';
 import { RocketChatAssociationModel, RocketChatAssociationRecord } from '@rocket.chat/apps-engine/definition/metadata';
 import { IEmbeddedBoard } from '../interfaces/external';
+import { MiroApp } from '../../MiroApp';
 
 export class EmbeddedBoards {
-  constructor(private readonly persistence: IPersistence, private readonly persistenceRead: IPersistenceRead) {}
+  constructor(public readonly app: MiroApp, private readonly persistence: IPersistence, private readonly persistenceRead: IPersistenceRead) {}
 
   public async createEmbeddedBoard(boardName: string, boardId: string, boardUrl: string, roomId: string): Promise<boolean> {
     try {
@@ -16,7 +17,7 @@ export class EmbeddedBoards {
       };
       await this.persistence.updateByAssociations(associations, subscriptionRecord, true);
     } catch (error) {
-      console.warn('Error :', error);
+      this.app.getLogger().error('Error :', error);
       return false;
     }
     return true;
@@ -29,7 +30,7 @@ export class EmbeddedBoards {
       let embeddedBoards: Array<IEmbeddedBoard> = (await this.persistenceRead.readByAssociations(associations)) as Array<IEmbeddedBoard>;
       return embeddedBoards;
     } catch (error) {
-      console.warn('Error :', error);
+      this.app.getLogger().error('Error :', error);
       let embeddedBoards: Array<IEmbeddedBoard> = [];
       return embeddedBoards;
     }
@@ -40,7 +41,7 @@ export class EmbeddedBoards {
       const associations: Array<RocketChatAssociationRecord> = [new RocketChatAssociationRecord(RocketChatAssociationModel.MISC, `boardembed`), new RocketChatAssociationRecord(RocketChatAssociationModel.MISC, `boardUrl:${boardUrl}`), new RocketChatAssociationRecord(RocketChatAssociationModel.ROOM, roomId)];
       await this.persistence.removeByAssociations(associations);
     } catch (error) {
-      console.warn('Error :', error);
+      this.app.getLogger().error('Error :', error);
       return false;
     }
     return true;

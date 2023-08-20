@@ -20,7 +20,7 @@ export async function addSubscriptionModal({ app, modify, read, persistence, htt
     let boardNameInputBox = await getInputBox(ModalsEnum.BOARD_NAME_LABEL, ModalsEnum.BOARD_NAME_PLACEHOLDER, ModalsEnum.BOARD_NAME_BLOCK, ModalsEnum.BOARD_NAME_INPUT, board_name || "");
 
     block.push(boardIdInputBox,boardNameInputBox);
-    
+
     let dividerBlock = await getDividerBlock();
     block.push(dividerBlock);
 
@@ -28,14 +28,14 @@ export async function addSubscriptionModal({ app, modify, read, persistence, htt
     let submitButton = await getButton("Subscribe", "", ModalsEnum.ADD_SUBSCRIPTION);
 
     return {
-    id: viewId,
-    type: UIKitSurfaceType.MODAL,
-    title: {
-        type: "plain_text",
-        text: ModalsEnum.ADD_SUBSCIPTIONS_TITLE,
-    },
-    close: closeButton,
-    submit: submitButton,
-    blocks: block,
+        id: viewId,
+        type: UIKitSurfaceType.MODAL,
+        title: {
+            type: "plain_text",
+            text: ModalsEnum.ADD_SUBSCIPTIONS_TITLE,
+        },
+        close: closeButton,
+        submit: submitButton,
+        blocks: block,
     };
 }

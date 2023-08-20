@@ -3,7 +3,6 @@ import { IUser } from '@rocket.chat/apps-engine/definition/users';
 import { Texts } from '../../enums/Texts';
 import { IBlockGenericAPIFunctionParams } from '../../interfaces/external';
 import { getSubscriptionUrl } from '../../lib/const';
-import { getAccessTokenForUser } from '../../storage/users';
 import { Subscription } from '../../storage/subscriptions';
 
 export async function deleteSubscription({ app, context, data, room, read, persistence, modify, http }: IBlockGenericAPIFunctionParams) {
@@ -15,14 +14,13 @@ export async function deleteSubscription({ app, context, data, room, read, persi
     };
     const url = getSubscriptionUrl(subscription_id!);
     const response = await http.del(url, { headers });;
-    console.log(response)
     if (response.statusCode == HttpStatusCode.NO_CONTENT || response.statusCode == HttpStatusCode.NOT_FOUND) {
         const textSender = await modify.getCreator().startMessage().setText(Texts.deleteSubscriptionSuccess);
         if (room) {
             textSender.setRoom(room);
         }
         await modify.getCreator().finish(textSender);
-        let subscriptionStorage = new Subscription(persistence!, read.getPersistenceReader());
+        let subscriptionStorage = new Subscription(app, persistence!, read.getPersistenceReader());
         await subscriptionStorage.deleteSubscription(subscription_id!)
     } else {
         const textSender = await modify.getCreator().startMessage().setText(Texts.deleteSubscriptionFailure + response.data.message);

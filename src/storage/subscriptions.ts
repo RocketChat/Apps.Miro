@@ -1,9 +1,10 @@
 import { IPersistence, IPersistenceRead } from '@rocket.chat/apps-engine/definition/accessors';
 import { RocketChatAssociationModel, RocketChatAssociationRecord } from '@rocket.chat/apps-engine/definition/metadata';
 import { ISubscription } from '../interfaces/external';
+import { MiroApp } from '../../MiroApp';
 
 export class Subscription {
-  constructor(private readonly persistence: IPersistence, private readonly persistenceRead: IPersistenceRead) {}
+  constructor(public readonly app: MiroApp, private readonly persistence: IPersistence, private readonly persistenceRead: IPersistenceRead) {}
 
   public async createSubscription(boardName: string, boardId: string, webhookId: string, rcUserId: string, miroUserId: string): Promise<boolean> {
     try {
@@ -17,7 +18,7 @@ export class Subscription {
       };
       await this.persistence.updateByAssociations(associations, subscriptionRecord, true);
     } catch (error) {
-      console.warn('Subscription Error :', error);
+      this.app.getLogger().error('Subscription Error :', error);
       return false;
     }
     return true;
@@ -30,7 +31,7 @@ export class Subscription {
       let subscriptions: Array<ISubscription> = (await this.persistenceRead.readByAssociations(associations)) as Array<ISubscription>;
       return subscriptions;
     } catch (error) {
-      console.warn('Get Subscription Error :', error);
+      this.app.getLogger().error('Get Subscription Error :', error);
       let subscriptions: Array<ISubscription> = [];
       return subscriptions;
     }
@@ -41,7 +42,7 @@ export class Subscription {
       const associations: Array<RocketChatAssociationRecord> = [new RocketChatAssociationRecord(RocketChatAssociationModel.MISC, `subscription`), new RocketChatAssociationRecord(RocketChatAssociationModel.MISC, `webhookId:${webhookId}`)];
       await this.persistence.removeByAssociations(associations);
     } catch (error) {
-      console.warn('Delete Subscription Error :', error);
+      this.app.getLogger().error('Delete Subscription Error :', error);
       return false;
     }
     return true;

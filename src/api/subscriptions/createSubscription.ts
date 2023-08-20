@@ -5,7 +5,7 @@ import { ModalsEnum } from '../../enums/Modals';
 import { Texts } from '../../enums/Texts';
 import { ISubmitGenericAPIFunctionParams } from '../../interfaces/external';
 import { getWebhookSubscriptionUrl, getWebhookUrl } from '../../lib/const';
-import { getAccessTokenForUser, retrieveUserByRocketChatUserIdAsync } from '../../storage/users';
+import { retrieveUserByRocketChatUserIdAsync } from '../../storage/users';
 import { Subscription } from '../../storage/subscriptions';
 
 export async function createSubscription({ app, context, data, room, read, persistence, modify, http }: ISubmitGenericAPIFunctionParams) {
@@ -16,7 +16,6 @@ export async function createSubscription({ app, context, data, room, read, persi
     const board_name = state?.[ModalsEnum.BOARD_NAME_BLOCK]?.[ModalsEnum.BOARD_NAME_INPUT];
     const accessors = app?.getAccessors();
     const callbackUrl = await getWebhookUrl(accessors!, MiscEnum.API_INCOMING_ENDPOINT);
-    console.log(state)
     const headers = {
         Authorization: `Bearer ${token?.token}`,
     };
@@ -38,7 +37,7 @@ export async function createSubscription({ app, context, data, room, read, persi
             textSender.setRoom(room);
         }
         await modify.getCreator().finish(textSender);
-        let subscriptionStorage = new Subscription(persistence, read.getPersistenceReader());
+        let subscriptionStorage = new Subscription(app, persistence, read.getPersistenceReader());
         await subscriptionStorage.createSubscription(board_name, boardId, webhookId, user.id, rcUser?.miroUserId!);
     } else {
         const textSender = await modify.getCreator().startMessage().setText(Texts.createSubscriptionFailure + response.data.message);

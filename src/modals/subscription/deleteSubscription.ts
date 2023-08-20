@@ -7,32 +7,32 @@ import { IGenericModal, ISubscription } from "../../interfaces/external";
 import { Subscription } from "../../storage/subscriptions";
 import { MiscEnum } from "../../enums/Misc";
 
-export async function deleteSubscriptionModal({ modify, read, persistence, http, slashcommandcontext, uikitcontext, data }: IGenericModal): Promise<IUIKitSurfaceViewParam> {
-    const viewId = ModalsEnum.DELETE_SUBSCRIPTIONS;
+export async function deleteSubscriptionModal({ app, modify, read, persistence, http, slashcommandcontext, uikitcontext, data }: IGenericModal): Promise<IUIKitSurfaceViewParam> {
+  const viewId = ModalsEnum.DELETE_SUBSCRIPTIONS;
 
-    const block: Block[] = [];
-    const user = slashcommandcontext?.getSender() || uikitcontext?.getInteractionData().user!;
+  const block: Block[] = [];
+  const user = slashcommandcontext?.getSender() || uikitcontext?.getInteractionData().user!;
 
-    let subscriptionStorage = new Subscription(persistence, read.getPersistenceReader());
-    let userSubscriptions: Array<ISubscription> = await subscriptionStorage.getSubscriptions(user?.id);
+  let subscriptionStorage = new Subscription(app, persistence, read.getPersistenceReader());
+  let userSubscriptions: Array<ISubscription> = await subscriptionStorage.getSubscriptions(user?.id);
 
-    let dividerblock = await getDividerBlock();
-    block.push(dividerblock);
+  let dividerblock = await getDividerBlock();
+  block.push(dividerblock);
 
-    let index = 1;
-    for (let subscription of userSubscriptions) {
-      let boardName = subscription.boardName;
-      let boardId = subscription.boardId;
-      let webhookId = subscription.webhookId;
-      let deleteBoardButton = await getButton(MiscEnum.DELETE_SUBSCRIPTION_BUTTON, "", MiscEnum.DELETE_SUBSCRIPTION_ACTION_ID, webhookId, ButtonStyle.DANGER);
-      let boardSectionBlock = await getSectionBlock(`${index}) ${boardName}`, deleteBoardButton);
-      block.push(deleteBoardButton, boardSectionBlock);
-      index++;
-    }
+  let index = 1;
+  for (let subscription of userSubscriptions) {
+    let boardName = subscription.boardName;
+    let boardId = subscription.boardId;
+    let webhookId = subscription.webhookId;
+    let deleteBoardButton = await getButton(MiscEnum.DELETE_SUBSCRIPTION_BUTTON, "", MiscEnum.DELETE_SUBSCRIPTION_ACTION_ID, webhookId, ButtonStyle.DANGER);
+    let boardSectionBlock = await getSectionBlock(`${index}) ${boardName}`, deleteBoardButton);
+    block.push(deleteBoardButton, boardSectionBlock);
+    index++;
+  }
 
-    let closeButton = await getButton("Close", "", "");
+  let closeButton = await getButton("Close", "", "");
 
-    return {
+  return {
     id: viewId,
     type: UIKitSurfaceType.MODAL,
     title: {
@@ -41,5 +41,5 @@ export async function deleteSubscriptionModal({ modify, read, persistence, http,
     },
     close: closeButton,
     blocks: block,
-    };
+  };
 }

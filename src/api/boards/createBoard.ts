@@ -11,7 +11,6 @@ import { Texts } from '../../enums/Texts';
 import { getActionsBlock, getButton, getContextBlock, getSectionBlock } from '../../helpers/blockBuilder';
 import { ISubmitGenericAPIFunctionParams } from '../../interfaces/external';
 import { getBoardsUrl } from '../../lib/const';
-import { getAccessTokenForUser } from '../../storage/users';
 
 export async function createBoard({ app, context, data, room, read, persistence, modify, http }: ISubmitGenericAPIFunctionParams) {
   const state = data.view.state;

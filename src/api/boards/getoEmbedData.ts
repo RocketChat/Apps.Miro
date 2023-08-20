@@ -2,7 +2,6 @@ import { IUser } from "@rocket.chat/apps-engine/definition/users";
 import { HttpStatusCode } from '@rocket.chat/apps-engine/definition/accessors';
 import { IOEmbedResponse } from '../../interfaces/external';
 import { getoEmbedDataUrl } from "../../lib/const";
-import { LayoutBlockType } from "@rocket.chat/ui-kit/dist/esm/blocks/LayoutBlockType";
 import { DividerBlock, PreviewBlockWithPreview } from "@rocket.chat/ui-kit";
 import { getDividerBlock, getPreviewBlock } from "../../helpers/blockBuilder";
 import { EmbeddedBoards } from "../../storage/embeddedBoards";
@@ -20,16 +19,15 @@ export async function getoEmbedDataByBoardUrl({ app, context, http, data }: any)
     if (response.statusCode==HttpStatusCode.OK) {
       const oEmbedResponse: IOEmbedResponse = response.data;
       const block: PreviewBlockWithPreview = await getPreviewBlock(oEmbedResponse);
-      console.log(block)
       return block;
     } else {
       const block: DividerBlock = await getDividerBlock();
-        return block;
+      return block;
     }
 }
 
-export async function embedBoardToRoom({ modify, persistence, read, data, room }: any) {
-  let embeddedBoardsStorage = new EmbeddedBoards(persistence, read.getPersistenceReader());
+export async function embedBoardToRoom({ app, modify, persistence, read, data, room }: any) {
+  let embeddedBoardsStorage = new EmbeddedBoards(app, persistence, read.getPersistenceReader());
   let boardId = data.value.split('|')[0]
   let boardName = data.value.split('|')[1]
   let boardUrl = data.value.split('|')[2]
@@ -41,8 +39,8 @@ export async function embedBoardToRoom({ modify, persistence, read, data, room }
   await modify.getCreator().finish(textSender);
 }
 
-export async function removeEmbeddedBoardFromRoom({ modify, persistence, read, data, room }: any) {
-  let embeddedBoardsStorage = new EmbeddedBoards(persistence, read.getPersistenceReader());
+export async function removeEmbeddedBoardFromRoom({ app, modify, persistence, read, data, room }: any) {
+  let embeddedBoardsStorage = new EmbeddedBoards(app, persistence, read.getPersistenceReader());
   let roomId = data.value.split('|')[0]
   let boardUrl = data.value.split('|')[1]
   await embeddedBoardsStorage.deleteEmbeddedBoard(roomId, boardUrl);
