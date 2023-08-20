@@ -1,4 +1,5 @@
 export enum MiscEnum {
+    API_INCOMING_ENDPOINT = 'mirowebhppl',
     GET_BOARDS_BUTTON = 'Get Boards',
     GET_BOARDS_ACTION_ID = 'get-boards',
     BOARD_ACTIONS_BLOCK = 'board-actions',

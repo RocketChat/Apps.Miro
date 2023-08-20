@@ -1,21 +1,16 @@
-import { IHttp, IModify, IPersistence, IRead, IUIKitSurfaceViewParam } from '@rocket.chat/apps-engine/definition/accessors';
-import { SlashCommandContext } from '@rocket.chat/apps-engine/definition/slashcommands';
-import { UIKitInteractionContext, UIKitSurfaceType } from '@rocket.chat/apps-engine/definition/uikit';
-import { Block, Option } from '@rocket.chat/ui-kit';
+import { IUIKitSurfaceViewParam } from '@rocket.chat/apps-engine/definition/accessors';
+import { UIKitSurfaceType } from '@rocket.chat/apps-engine/definition/uikit';
+import { Block } from '@rocket.chat/ui-kit';
 import { ModalsEnum } from '../../enums/Modals';
-import { getActionsBlock, getButton, getInputBox, getMultiStaticElement, getOptions, getSectionBlock, getStaticSelectElement } from '../../helpers/blockBuilder';
-import { IGenericModal } from '../../interfaces/external';
+import { getButton, getInputBox, getMultiStaticElement, getOptions, getSectionBlock, getStaticSelectElement } from '../../helpers/blockBuilder';
+import { IBlockGenericAPIFunctionParams } from '../../interfaces/external';
 
-export async function editBoardModal({ modify, read, persistence, http, slashcommandcontext, uikitcontext, actionbuttoncontext, data }: IGenericModal): Promise<IUIKitSurfaceViewParam> {
+export async function editBoardModal({ context, data, modify, read, persistence, http, extra }: IBlockGenericAPIFunctionParams): Promise<IUIKitSurfaceViewParam> {
   const viewId = ModalsEnum.EDIT_BOARD;
   const block: Array<Block> = [];
-  let { id, name, desc, teamId, projectId, members } = data;
-  const room = slashcommandcontext?.getRoom() || uikitcontext?.getInteractionData().room! || actionbuttoncontext?.getInteractionData().room!
-  const selectOptions : Option[]  = [];
+  let { id, name, desc, teamId, projectId } = extra;
+  
   const optionalParametersSectionBlock = await getSectionBlock(ModalsEnum.OPTIONAL_PARAMETERS_LABEL);
-  for (const member of members) {
-    selectOptions.push(await getOptions(member.name, member.id));
-}
 
   const boardNameInputBox = await getInputBox(ModalsEnum.BOARD_NAME_INPUT_LABEL, ModalsEnum.BOARD_NAME_INPUT_LABEL_DEFAULT, ModalsEnum.BOARD_NAME_BLOCK, ModalsEnum.BOARD_NAME_INPUT, name);
 
@@ -25,13 +20,7 @@ export async function editBoardModal({ modify, read, persistence, http, slashcom
 
   const projectIdInputBox = await getInputBox(ModalsEnum.PROJECT_ID_INPUT_LABEL, ModalsEnum.PROJECT_ID_INPUT_LABEL_DEFAULT, ModalsEnum.PROJECT_ID_BLOCK, ModalsEnum.PROJECT_ID_INPUT, projectId);
 
-  const membersInputElement = await getMultiStaticElement(ModalsEnum.MEMBERS_INPUT_LABEL, selectOptions, ModalsEnum.MEMBERS_BLOCK, ModalsEnum.MEMBERS_INPUT);
-
-  const membersInputBox = await getActionsBlock(ModalsEnum.MEMBERS_BLOCK, [membersInputElement]);
-
-  const membersTitleBlock = await getSectionBlock(ModalsEnum.MEMBERS_INPUT_LABEL);
-
-  block.push(optionalParametersSectionBlock, boardNameInputBox, teamIdInputBox, boardDescriptionInputBox, projectIdInputBox, membersTitleBlock, membersInputBox);
+  block.push(optionalParametersSectionBlock, boardNameInputBox, teamIdInputBox, boardDescriptionInputBox, projectIdInputBox);
 
   const closeButton = await getButton('Close', '', '');
   const submitButton = await getButton(ModalsEnum.UPDATE_BOARD_SUBMIT_BUTTON_LABEL, '', '');

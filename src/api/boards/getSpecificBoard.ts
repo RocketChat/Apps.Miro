@@ -32,3 +32,29 @@ export async function shareBoard({context, data, room, read, persistence, modify
         await modify.getCreator().finish(textSender);
     }
 }
+
+export async function getBoardDataById({context, read, http }: any) {
+    const user: IUser = context.getInteractionData().user;
+    const token = await getAccessTokenForUser(read, user);
+    const board_id = context.getInteractionData().value;
+    const headers = {
+        Authorization: `Bearer ${token?.token}`,
+    };
+    const url = getSpecificBoardsUrl(board_id!);
+    const response = await http.get(url, { headers });
+    
+    if (response.statusCode==HttpStatusCode.OK) {
+        
+        let id = response.data.id;
+        let name = response.data.name;
+        let desc = response.data.description;
+        let teamId = response.data.team.id;
+        let projectId = response.data.project.id;
+        let data = { id, name, desc, teamId, projectId };
+
+        return data
+
+    } else {
+        return {}
+    }
+}

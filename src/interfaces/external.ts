@@ -4,8 +4,10 @@ import { SlashCommandContext } from '@rocket.chat/apps-engine/definition/slashco
 import { UIKitActionButtonInteractionContext, UIKitBlockInteractionContext, UIKitInteractionContext, UIKitViewSubmitInteractionContext } from '@rocket.chat/apps-engine/definition/uikit';
 import { IUIKitViewSubmitIncomingInteraction } from '@rocket.chat/apps-engine/definition/uikit/UIKitIncomingInteractionTypes';
 import { IUIKitBaseIncomingInteraction } from "@rocket.chat/apps-engine/definition/uikit/UIKitIncomingInteractionTypes";
+import { MiroApp } from '../../MiroApp';
 
 export interface ISubmitGenericAPIFunctionParams {
+    app?: MiroApp,
     context: UIKitViewSubmitInteractionContext;
     data: IUIKitViewSubmitIncomingInteraction;
     room: IRoom;
@@ -23,6 +25,7 @@ export interface IBlockGenericAPIFunctionParams {
     persistence: IPersistence;
     modify: IModify;
     http: IHttp;
+    extra?: any;
 }
 
 export interface IGenericModal {
@@ -34,3 +37,11 @@ export interface IGenericModal {
     uikitcontext?: UIKitInteractionContext;
     actionbuttoncontext?: UIKitActionButtonInteractionContext;
     data?: any; }
+
+export interface ISubscription{
+    webhookId : string,
+    rcUserId: string, 
+    miroUserId: string,
+    boardName : string,
+    boardId : string
+}

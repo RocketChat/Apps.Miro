@@ -1,21 +1,8 @@
-import {
-    IAppAccessors,
-    IAppInstallationContext,
-    IConfigurationExtend,
-    IHttp,
-    ILogger,
-    IModify,
-    IPersistence,
-    IRead,
-} from '@rocket.chat/apps-engine/definition/accessors';
+import { IAppAccessors, IAppInstallationContext, IConfigurationExtend, IHttp, ILogger, IModify, IPersistence, IRead } from '@rocket.chat/apps-engine/definition/accessors';
 import { HttpStatusCode } from '@rocket.chat/apps-engine/definition/accessors';
 import { App } from '@rocket.chat/apps-engine/definition/App';
 import { IAppInfo } from '@rocket.chat/apps-engine/definition/metadata';
-import {
-    IAuthData,
-    IOAuth2Client,
-    IOAuth2ClientOptions,
-} from '@rocket.chat/apps-engine/definition/oauth2/IOAuth2';
+import { IAuthData, IOAuth2Client, IOAuth2ClientOptions,} from '@rocket.chat/apps-engine/definition/oauth2/IOAuth2';
 import { createOAuth2Client } from '@rocket.chat/apps-engine/definition/oauth2/OAuth2';
 import { IUIKitResponse, UIKitBlockInteractionContext, UIKitViewSubmitInteractionContext, UIKitActionButtonInteractionContext } from '@rocket.chat/apps-engine/definition/uikit';
 import { IUser } from '@rocket.chat/apps-engine/definition/users';
@@ -31,6 +18,8 @@ import { Miro as MiroCommand } from './src/slashcommands/miro';
 import { persistUserAsync } from './src/storage/users';
 import { MiscEnum } from './src/enums/Misc';
 import { UIActionButtonContext } from '@rocket.chat/apps-engine/definition/ui';
+import { ApiSecurity, ApiVisibility } from '@rocket.chat/apps-engine/definition/api';
+import { miroWebhook } from './src/endpoints/incoming'
 
 export class MiroApp extends App {
     public botUsername: string;
@@ -97,6 +86,11 @@ export class MiroApp extends App {
             labelI18n: 'create-board-label',
             context: UIActionButtonContext.ROOM_ACTION
           });
+        configuration.api.provideApi({
+        visibility: ApiVisibility.PUBLIC,
+        security: ApiSecurity.UNSECURE,
+        endpoints: [new miroWebhook(this)],
+        });
     }
 
     private async autorizationCallback(token: IAuthData, user: IUser, read: IRead, modify: IModify, http: IHttp, persistence: IPersistence) {

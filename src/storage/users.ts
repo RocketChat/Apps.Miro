@@ -38,7 +38,7 @@ export const persistUserAsync = async (
             rocketChatUserId,
         ),
     ];
-    const associationsByTeamsUserId: Array<RocketChatAssociationRecord> = [
+    const associationsByMiroUserId: Array<RocketChatAssociationRecord> = [
         new RocketChatAssociationRecord(
             RocketChatAssociationModel.MISC,
             'User',
@@ -58,7 +58,7 @@ export const persistUserAsync = async (
         data,
         true,
     );
-    await persis.updateByAssociations(associationsByTeamsUserId, data, true);
+    await persis.updateByAssociations(associationsByMiroUserId, data, true);
 };
 
 export const retrieveUserByRocketChatUserIdAsync = async (
@@ -122,6 +122,33 @@ export const retrieveUserBymiroUserIdAsync = async (
     const data: UserModel = results[0] as UserModel;
     return data;
 };
+
+export const retrieveSubscribedUsersByBoardIdAsync = async (
+    read: IRead,
+    boardId: string,
+): Promise<Array<UserModel> | null> => {
+    const associations: Array<RocketChatAssociationRecord> = [
+        new RocketChatAssociationRecord(
+            RocketChatAssociationModel.MISC,
+            'User',
+        ),
+        new RocketChatAssociationRecord(
+            RocketChatAssociationModel.USER,
+            boardId,
+        ),
+    ];
+
+    const persistenceRead: IPersistenceRead = read.getPersistenceReader();
+    const results = await persistenceRead.readByAssociations(associations);
+
+    if (results === undefined || results === null || results.length == 0) {
+        return null;
+    }
+
+    const data: Array<UserModel> = results as Array<UserModel>;
+    return data;
+};
+
 
 export async function create(
     read: IRead,

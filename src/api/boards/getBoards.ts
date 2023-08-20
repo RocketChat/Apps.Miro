@@ -37,7 +37,7 @@ export async function getBoards({ context, data, room, read, persistence, modify
       const shareBoardButton = await getButton(MiscEnum.SHARE_BOARD_BUTTON, MiscEnum.BOARD_ACTIONS_BLOCK, MiscEnum.SHARE_BOARD_ACTION_ID, `${board.id}`, ButtonStyle.PRIMARY);
       const editBoardButton = await getButton(MiscEnum.EDIT_BOARD_BUTTON, MiscEnum.BOARD_ACTIONS_BLOCK, MiscEnum.EDIT_BOARD_ACTION_ID, `${board.id}`);
       const deleteBoardButton = await getButton(MiscEnum.DELETE_BOARD_BUTTON, MiscEnum.BOARD_ACTIONS_BLOCK, MiscEnum.DELETE_BOARD_ACTION_ID, `${board.id}`, ButtonStyle.DANGER);
-      const subscribeboardButton = await getButton(MiscEnum.SUBSCRIBE_BOARD_BUTTON, MiscEnum.BOARD_ACTIONS_BLOCK, MiscEnum.SUBSCRIBE_BOARD_ACTION_ID, `${board.name},${board.id}`, ButtonStyle.PRIMARY);
+      const subscribeboardButton = await getButton(MiscEnum.SUBSCRIBE_BOARD_BUTTON, MiscEnum.BOARD_ACTIONS_BLOCK, MiscEnum.SUBSCRIBE_BOARD_ACTION_ID, `${board.id}|${board.name}`, ButtonStyle.PRIMARY);
       const boardActionBlock = await getActionsBlock(MiscEnum.BOARD_ACTIONS_BLOCK, [viewBoardButton, shareBoardButton, editBoardButton, deleteBoardButton, subscribeboardButton]);
       block.push(boardActionBlock);
       builder.setBlocks(block);

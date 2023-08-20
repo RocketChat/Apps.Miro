@@ -1,12 +1,13 @@
 import { IHttp, IModify, IPersistence, IRead } from '@rocket.chat/apps-engine/definition/accessors';
-import { SlashCommandContext } from '@rocket.chat/apps-engine/definition/slashcommands';
-import { UIKitInteractionContext , UIKitViewSubmitInteractionContext} from '@rocket.chat/apps-engine/definition/uikit';
+import { UIKitViewSubmitInteractionContext} from '@rocket.chat/apps-engine/definition/uikit';
 import { MiroApp } from '../../MiroApp';
 import { getBoards } from '../api/boards/getBoards';
 import { createBoard } from '../api/boards/createBoard';
+import { updateBoard } from '../api/boards/updateBoard';
 import { ModalsEnum } from '../enums/Modals';
 import { getUIData } from '../lib/persistence';
 import { inviteBoardMembers } from '../api/boardMembers/shareBoard';
+import { createSubscription } from '../api/subscriptions/createSubscription';
 
 export class ExecuteViewSubmitHandler {
 	constructor(
@@ -35,6 +36,12 @@ export class ExecuteViewSubmitHandler {
 				case ModalsEnum.ADD_BOARD_MEMBERS:
 					await inviteBoardMembers({ context, data, room, read: this.read, persistence: this.persistence, modify: this.modify, http: this.http });
 					return context.getInteractionResponder().successResponse();
+				case ModalsEnum.EDIT_BOARD:
+					await updateBoard({ context, data, room, read: this.read, persistence: this.persistence, modify: this.modify, http: this.http });
+					return context.getInteractionResponder().successResponse();
+				case ModalsEnum.ADD_SUBSCRIPTION:
+					await createSubscription({ app: this.app, context, data, room, read: this.read, persistence: this.persistence, modify: this.modify, http: this.http });
+					return context.getInteractionResponder().successResponse(); 
 				default:
 					break;
 			}
