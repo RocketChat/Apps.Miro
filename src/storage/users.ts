@@ -12,6 +12,7 @@ import {
     IOAuth2ClientOptions,
 } from '@rocket.chat/apps-engine/definition/oauth2/IOAuth2';
 import { IUser } from '@rocket.chat/apps-engine/definition/users';
+import { ISubscription } from '../interfaces/external';
 
 export interface UserModel {
     rocketChatUserId: string;
@@ -126,17 +127,8 @@ export const retrieveUserBymiroUserIdAsync = async (
 export const retrieveSubscribedUsersByBoardIdAsync = async (
     read: IRead,
     boardId: string,
-): Promise<Array<UserModel> | null> => {
-    const associations: Array<RocketChatAssociationRecord> = [
-        new RocketChatAssociationRecord(
-            RocketChatAssociationModel.MISC,
-            'User',
-        ),
-        new RocketChatAssociationRecord(
-            RocketChatAssociationModel.USER,
-            boardId,
-        ),
-    ];
+): Promise<Array<ISubscription> | null> => {
+    const associations: Array<RocketChatAssociationRecord> = [new RocketChatAssociationRecord(RocketChatAssociationModel.MISC, `subscription`), new RocketChatAssociationRecord(RocketChatAssociationModel.MISC, `boardId:${boardId}`)];
 
     const persistenceRead: IPersistenceRead = read.getPersistenceReader();
     const results = await persistenceRead.readByAssociations(associations);
@@ -145,7 +137,7 @@ export const retrieveSubscribedUsersByBoardIdAsync = async (
         return null;
     }
 
-    const data: Array<UserModel> = results as Array<UserModel>;
+    const data: Array<ISubscription> = results as Array<ISubscription>;
     return data;
 };
 

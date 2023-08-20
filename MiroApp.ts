@@ -101,12 +101,12 @@ export class MiroApp extends App {
     private async autorizationCallback(token: IAuthData, user: IUser, read: IRead, modify: IModify, http: IHttp, persistence: IPersistence) {
         if (token) {
             const headers = {
-                Authorization: `${token?.token}`,
+                Authorization: `Bearer ${token?.token}`,
             };
             const url = getMiroUserProfileUrl();
             const userData = await http.get(url, { headers });
             if (userData.statusCode == HttpStatusCode.OK) {
-                await persistUserAsync(persistence, user.id, userData.data.user.id);
+                await persistUserAsync(persistence, user.id, userData.data.id);
             }
         }
         const successAuthText = Texts.AuthSuccess;

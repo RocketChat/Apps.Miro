@@ -29,7 +29,7 @@ const MiroApiEndpoint = {
 };
 
 export const getMiroUserProfileUrl = () => {
-    return `${APIBaseDomain}/${APIVersionReference.V2}/${MiroApiEndpoint.User}/${MiroApiEndpoint.Profile}`;
+    return `${APIBaseDomain}/${APIVersionReference.V1}/${MiroApiEndpoint.User}/${MiroApiEndpoint.Profile}`;
 };
 
 export const getBoardsUrl = (

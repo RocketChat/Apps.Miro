@@ -15,7 +15,7 @@ export async function viewEmbeddedBoardsModal({ app, modify, read, persistence, 
   const viewId = ModalsEnum.VIEW_EMBEDDED_BOARDS;
   const block: Array<Block> = [];
   const room = actionbuttoncontext?.getInteractionData().room!
-  let embeddedBoardsStorage = new EmbeddedBoards(persistence, read.getPersistenceReader());
+  let embeddedBoardsStorage = new EmbeddedBoards(app, persistence, read.getPersistenceReader());
   let roomEmbeddedBoards: Array<IEmbeddedBoard> = await embeddedBoardsStorage.getEmbeddedBoards(room.id);
   let index = 1;
     for (let board of roomEmbeddedBoards) {
