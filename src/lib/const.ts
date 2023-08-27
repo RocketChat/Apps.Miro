@@ -1,8 +1,6 @@
 import { IApiEndpointMetadata } from '@rocket.chat/apps-engine/definition/api';
 import { IAppAccessors } from "@rocket.chat/apps-engine/definition/accessors";
 
-import { MiroApp } from '../../MiroApp';
-
 export const AuthenticationEndpointPath: string = 'auth';
 export const SubscriberEndpointPath: string = 'subscriber';
 
@@ -32,12 +30,7 @@ export const getMiroUserProfileUrl = () => {
     return `${APIBaseDomain}/${APIVersionReference.V1}/${MiroApiEndpoint.User}/${MiroApiEndpoint.Profile}`;
 };
 
-export const getBoardsUrl = (
-    team_id?: string,
-    project_id?: string,
-    owner?: string,
-    query?: string,
-  ) => {
+export const getBoardsUrl = (team_id?: string, project_id?: string, owner?: string, query?: string) => {
     const params: Array<string> = [];
     if (team_id) { params.push(`team_id=${encodeURIComponent(team_id)}`); }
     if (project_id) { params.push(`project_id=${encodeURIComponent(project_id)}`); }
