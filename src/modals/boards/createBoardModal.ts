@@ -6,7 +6,7 @@ import { ModalsEnum } from '../../enums/Modals';
 import { getActionsBlock, getButton, getInputBox, getMultiStaticElement, getOptions, getSectionBlock, getStaticSelectElement } from '../../helpers/blockBuilder';
 import { IGenericModal } from '../../interfaces/external';
 
-export async function createBoardModal({ modify, read, persistence, http, slashcommandcontext, uikitcontext, actionbuttoncontext, data }: IGenericModal): Promise<IUIKitSurfaceViewParam> {
+export async function createBoardModal({ app, modify, read, persistence, http, slashcommandcontext, uikitcontext, actionbuttoncontext, data }: IGenericModal): Promise<IUIKitSurfaceViewParam> {
   const viewId = ModalsEnum.CREATE_BOARD;
   const block: Array<Block> = [];
   const room = slashcommandcontext?.getRoom() || uikitcontext?.getInteractionData().room! || actionbuttoncontext?.getInteractionData().room!

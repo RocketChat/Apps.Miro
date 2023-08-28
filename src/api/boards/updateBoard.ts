@@ -8,12 +8,11 @@ import { Texts } from '../../enums/Texts';
 import { getActionsBlock, getButton, getContextBlock, getSectionBlock } from '../../helpers/blockBuilder';
 import { ISubmitGenericAPIFunctionParams } from '../../interfaces/external';
 import { getSpecificBoardsUrl } from '../../lib/const';
-import { getAccessTokenForUser } from '../../storage/users';
 
-export async function updateBoard({ context, data, room, read, persistence, modify, http }: ISubmitGenericAPIFunctionParams) {
+export async function updateBoard({ app, context, data, room, read, persistence, modify, http }: ISubmitGenericAPIFunctionParams) {
   const state = data.view.state;
   const user: IUser = context.getInteractionData().user;
-  const token = await getAccessTokenForUser(read, user);
+  const token = await app.getOauth2ClientInstance().getAccessTokenForUser(user);
   const board_id = data.view.title.text.split("#")[1];
   const team_id = state?.[ModalsEnum.TEAM_ID_BLOCK]?.[ModalsEnum.TEAM_ID_INPUT];
   const project_id = state?.[ModalsEnum.PROJECT_ID_BLOCK]?.[ModalsEnum.PROJECT_ID_INPUT];

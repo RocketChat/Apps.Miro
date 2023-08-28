@@ -7,6 +7,7 @@ export const AuthenticationEndpointPath: string = 'auth';
 export const SubscriberEndpointPath: string = 'subscriber';
 
 const APIBaseDomain: string = 'https://api.miro.com';
+const APIDomainRoute: string = 'https://miro.com/api';
 const APIVersionReference = {
     V1: 'v1',
     V2: 'v2',
@@ -23,11 +24,12 @@ const MiroApiEndpoint = {
     Search: 'search',
     Webhooks: 'webhooks',
     BoardSubscriptions: 'board_subscriptions',
-    Subscriptions: 'subscriptions'
+    Subscriptions: 'subscriptions',
+    oEmbed: 'oembed'
 };
 
 export const getMiroUserProfileUrl = () => {
-    return `${APIBaseDomain}/${APIVersionReference.V2}/${MiroApiEndpoint.User}/${MiroApiEndpoint.Profile}`;
+    return `${APIBaseDomain}/${APIVersionReference.V1}/${MiroApiEndpoint.User}/${MiroApiEndpoint.Profile}`;
 };
 
 export const getBoardsUrl = (
@@ -46,16 +48,11 @@ export const getBoardsUrl = (
     return url;
 };
 
-export const getSpecificBoardsUrl = (
-    board_id: string
-  ) => {
+export const getSpecificBoardsUrl = (board_id: string) => {
     return `${APIBaseDomain}/${APIVersionReference.V2}/${MiroApiEndpoint.Boards}/${board_id}`;
 };
 
-export const getBoardMembersUrl = (
-    board_id: string,
-    member_id?: string
-  ) => {
+export const getBoardMembersUrl = (board_id: string, member_id?: string) => {
     return `${APIBaseDomain}/${APIVersionReference.V2}/${MiroApiEndpoint.Boards}/${board_id}/${MiroApiEndpoint.Member}${member_id ? `?/${member_id}` : ''}`;
 };
 
@@ -81,6 +78,10 @@ export const getWebhookSubscriptionUrl = () => {
 
 export const getSubscriptionUrl = (subscription_id: string) => {
     return `${APIBaseDomain}/${APIVersionReference.V2E}/${MiroApiEndpoint.Webhooks}/${MiroApiEndpoint.Subscriptions}/${subscription_id}`;
+};
+
+export const getoEmbedDataUrl = (board_url: string) => {
+    return `${APIDomainRoute}/${APIVersionReference.V1}/${MiroApiEndpoint.oEmbed}?url=${board_url}`;
 };
 
 export const TestEnvironment = {

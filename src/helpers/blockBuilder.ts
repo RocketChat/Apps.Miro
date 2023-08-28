@@ -1,27 +1,12 @@
 import { ButtonStyle } from '@rocket.chat/apps-engine/definition/uikit';
-import {
-    ActionsBlock,
-    ButtonElement,
-    ContextBlock,
-    DividerBlock,
-    InputBlock,
-    Option,
-    SectionBlock,
-    StaticSelectElement,
-    MultiUsersSelectElement,
-    MultiStaticSelectElement
-    
-} from '@rocket.chat/ui-kit';
-import { AppEnum } from '../enums/App';
+import { PreviewBlockWithPreview, ToggleSwitchElement } from "@rocket.chat/ui-kit";
+import { LayoutBlockType } from "@rocket.chat/ui-kit/dist/esm/blocks/LayoutBlockType";
 
-export async function getInputBox(
-    labelText: string,
-    placeholderText: string,
-    blockId: string,
-    actionId: string,
-    initialValue?: string,
-    multiline?: boolean,
-): Promise<InputBlock> {
+import { ActionsBlock, ButtonElement, ContextBlock, DividerBlock, InputBlock, Option, SectionBlock, StaticSelectElement, MultiStaticSelectElement, CheckboxElement } from '@rocket.chat/ui-kit';
+import { AppEnum } from '../enums/App';
+import { IOEmbedResponse } from '../interfaces/external';
+
+export async function getInputBox(labelText: string, placeholderText: string, blockId: string, actionId: string, initialValue?: string, multiline?: boolean): Promise<InputBlock> {
     const block: InputBlock = {
         type: 'input',
         label: {
@@ -44,13 +29,7 @@ export async function getInputBox(
     return block;
 }
 
-export async function getInputBoxDate(
-    labelText: string,
-    placeholderText: string,
-    blockId: string,
-    actionId: string,
-    initialDate?: string,
-): Promise<InputBlock> {
+export async function getInputBoxDate(labelText: string, placeholderText: string, blockId: string, actionId: string, initialDate?: string): Promise<InputBlock> {
     const block: InputBlock = {
         type: 'input',
         label: {
@@ -72,14 +51,7 @@ export async function getInputBoxDate(
     return block;
 }
 
-export async function getButton(
-    labelText: string,
-    blockId: string,
-    actionId: string,
-    value?: string,
-    style?: ButtonStyle.PRIMARY | ButtonStyle.DANGER,
-    url?: string,
-): Promise<ButtonElement> {
+export async function getButton(labelText: string, blockId: string, actionId: string, value?: string, style?: ButtonStyle.PRIMARY | ButtonStyle.DANGER, url?: string): Promise<ButtonElement> {
     const button: ButtonElement = {
         type: 'button',
         text: {
@@ -96,10 +68,7 @@ export async function getButton(
     return button;
 }
 
-export async function getSectionBlock(
-    labelText: string,
-    accessory?: any,
-): Promise<SectionBlock> {
+export async function getSectionBlock(labelText: string, accessory?: any,): Promise<SectionBlock> {
     const block: SectionBlock = {
         type: 'section',
         text: {
@@ -118,9 +87,7 @@ export async function getDividerBlock(): Promise<DividerBlock> {
     return block;
 }
 
-export async function getContextBlock(
-    elementText: string,
-): Promise<ContextBlock> {
+export async function getContextBlock(elementText: string,): Promise<ContextBlock> {
     const block: ContextBlock = {
         type: 'context',
         elements: [
@@ -133,13 +100,7 @@ export async function getContextBlock(
     return block;
 }
 
-export async function getStaticSelectElement(
-    placeholderText: string,
-    options: Array<Option>,
-    blockId: string,
-    actionId: string,
-    initialValue?: Option['value'],
-): Promise<StaticSelectElement> {
+export async function getStaticSelectElement(placeholderText: string, options: Array<Option>, blockId: string, actionId: string, initialValue?: Option['value']): Promise<StaticSelectElement> {
     const block: StaticSelectElement = {
         type: 'static_select',
         placeholder: {
@@ -163,10 +124,7 @@ export async function getOptions(text: string, value: string): Promise<Option> {
     return block;
 }
 
-export async function getActionsBlock(
-    blockId: string,
-    elements: Array<ButtonElement> | Array<StaticSelectElement> | Array<MultiStaticSelectElement>,
-): Promise<ActionsBlock> {
+export async function getActionsBlock(blockId: string, elements: Array<ButtonElement> | Array<StaticSelectElement> | Array<MultiStaticSelectElement>): Promise<ActionsBlock> {
     const block: ActionsBlock = {
         type: 'actions',
         blockId,
@@ -175,12 +133,7 @@ export async function getActionsBlock(
     return block;
 }
 
-export async function getMultiStaticElement(
-    placeholderText: string,
-    options: Array<Option>,
-    blockId: string,
-    actionId: string
-): Promise<MultiStaticSelectElement> {
+export async function getMultiStaticElement(placeholderText: string, options: Array<Option>, blockId: string, actionId: string): Promise<MultiStaticSelectElement> {
     const block: MultiStaticSelectElement = {
         type: 'multi_static_select',
         placeholder: {
@@ -191,6 +144,55 @@ export async function getMultiStaticElement(
         appId: AppEnum.APP_ID,
         blockId,
         actionId
+    };
+    return block;
+}
+
+export async function getCheckBoxElement(options: Array<Option>, initialOptions: Array<Option>, blockId: string, actionId: string): Promise<CheckboxElement> {
+    const block: CheckboxElement = {
+        type: 'checkbox',
+        options,
+        initialOptions,
+        appId: AppEnum.APP_ID,
+        blockId,
+        actionId
+    };
+    return block;
+}
+
+export async function getToggleSwitchElement(options: Array<Option>, initialOptions: Array<Option>, blockId: string, actionId: string): Promise<ToggleSwitchElement> {
+    const block: ToggleSwitchElement = {
+        type: 'toggle_switch',
+        options,
+        initialOptions,
+        appId: AppEnum.APP_ID,
+        blockId,
+        actionId
+    };
+    return block;
+}
+
+export async function getPreviewBlock(oEmbedResponse: IOEmbedResponse) {
+    const iframeSrc = oEmbedResponse.html.match(/src="([^"]+)"/)?.[1] || '';
+    const block: PreviewBlockWithPreview = {
+        preview: {
+            url: oEmbedResponse.thumbnail_url,
+            dimensions: {
+                width: oEmbedResponse.thumbnail_width,
+                height: oEmbedResponse.thumbnail_height,
+            },
+        },
+        type: LayoutBlockType.PREVIEW,
+        title: [
+            {
+                type: "plain_text",
+                text: oEmbedResponse.title,
+            },
+        ],
+        description: [],
+        externalUrl: oEmbedResponse.provider_url,
+        oembedUrl: iframeSrc,
+        thumb: undefined,
     };
     return block;
 }

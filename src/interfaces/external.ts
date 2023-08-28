@@ -7,7 +7,7 @@ import { IUIKitBaseIncomingInteraction } from "@rocket.chat/apps-engine/definiti
 import { MiroApp } from '../../MiroApp';
 
 export interface ISubmitGenericAPIFunctionParams {
-    app?: MiroApp,
+    app: MiroApp,
     context: UIKitViewSubmitInteractionContext;
     data: IUIKitViewSubmitIncomingInteraction;
     room: IRoom;
@@ -18,17 +18,19 @@ export interface ISubmitGenericAPIFunctionParams {
 }
 
 export interface IBlockGenericAPIFunctionParams {
+    app: MiroApp,
     context: UIKitBlockInteractionContext;
-    data: IUIKitBaseIncomingInteraction;
+    data?: IUIKitBaseIncomingInteraction;
     room: IRoom;
     read: IRead;
-    persistence: IPersistence;
+    persistence?: IPersistence;
     modify: IModify;
     http: IHttp;
     extra?: any;
 }
 
 export interface IGenericModal {
+    app: MiroApp,
     modify: IModify;
     read: IRead;
     persistence: IPersistence;
@@ -42,6 +44,27 @@ export interface ISubscription{
     webhookId : string,
     rcUserId: string, 
     miroUserId: string,
+    boardName : string,
+    boardId : string
+}
+
+export interface IOEmbedResponse {
+    html: string;
+    title: string;
+    version: string;
+    type: string;
+    thumbnail_url: string;
+    thumbnail_width: number;
+    thumbnail_height: number;
+    width: number;
+    height: number;
+    provider_name: string;
+    provider_url: string;
+  }
+
+  export interface IEmbeddedBoard{
+    boardUrl : string,
+    roomId: string, 
     boardName : string,
     boardId : string
 }

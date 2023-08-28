@@ -28,16 +28,16 @@ export class ExecuteViewSubmitHandler {
 		try {
 			switch (view.id) {
 				case ModalsEnum.GET_BOARDS:
-					await getBoards({ context, data, room, read: this.read, persistence: this.persistence, modify: this.modify, http: this.http });
+					await getBoards({ app: this.app, context, data, room, read: this.read, persistence: this.persistence, modify: this.modify, http: this.http });
 					return context.getInteractionResponder().successResponse();
 				case ModalsEnum.CREATE_BOARD:
-					await createBoard({ context, data, room, read: this.read, persistence: this.persistence, modify: this.modify, http: this.http });
+					await createBoard({ app: this.app, context, data, room, read: this.read, persistence: this.persistence, modify: this.modify, http: this.http });
 					return context.getInteractionResponder().successResponse();
 				case ModalsEnum.ADD_BOARD_MEMBERS:
-					await inviteBoardMembers({ context, data, room, read: this.read, persistence: this.persistence, modify: this.modify, http: this.http });
+					await inviteBoardMembers({ app: this.app, context, data, room, read: this.read, persistence: this.persistence, modify: this.modify, http: this.http });
 					return context.getInteractionResponder().successResponse();
 				case ModalsEnum.EDIT_BOARD:
-					await updateBoard({ context, data, room, read: this.read, persistence: this.persistence, modify: this.modify, http: this.http });
+					await updateBoard({ app: this.app, context, data, room, read: this.read, persistence: this.persistence, modify: this.modify, http: this.http });
 					return context.getInteractionResponder().successResponse();
 				case ModalsEnum.ADD_SUBSCRIPTION:
 					await createSubscription({ app: this.app, context, data, room, read: this.read, persistence: this.persistence, modify: this.modify, http: this.http });

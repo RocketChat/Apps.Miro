@@ -5,9 +5,9 @@ import { IBlockGenericAPIFunctionParams } from '../../interfaces/external';
 import { getSpecificBoardsUrl } from "../../lib/const";
 import { Texts } from '../../enums/Texts';
 
-export async function shareBoard({context, data, room, read, persistence, modify, http }: IBlockGenericAPIFunctionParams) {
+export async function shareBoard({ app, context, room, read, modify, http }: IBlockGenericAPIFunctionParams) {
     const user: IUser = context.getInteractionData().user;
-    const token = await getAccessTokenForUser(read, user);
+    const token = await app.getOauth2ClientInstance().getAccessTokenForUser(user);
     const board_id = context.getInteractionData().value;
     const headers = {
         Authorization: `Bearer ${token?.token}`,
@@ -33,9 +33,9 @@ export async function shareBoard({context, data, room, read, persistence, modify
     }
 }
 
-export async function getBoardDataById({context, read, http }: any) {
+export async function getBoardDataById({app, context, read, http }: any) {
     const user: IUser = context.getInteractionData().user;
-    const token = await getAccessTokenForUser(read, user);
+    const token = await app.getOauth2ClientInstance().getAccessTokenForUser(user);
     const board_id = context.getInteractionData().value;
     const headers = {
         Authorization: `Bearer ${token?.token}`,

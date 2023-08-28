@@ -5,9 +5,9 @@ import { IBlockGenericAPIFunctionParams } from '../../interfaces/external';
 import { getSpecificBoardsUrl } from "../../lib/const";
 import { Texts } from '../../enums/Texts';
 
-export async function deleteBoard({context, data, room, read, persistence, modify, http }: IBlockGenericAPIFunctionParams) {
+export async function deleteBoard({ app, context, data, room, read, persistence, modify, http }: IBlockGenericAPIFunctionParams) {
     const user: IUser = context.getInteractionData().user;
-    const token = await getAccessTokenForUser(read, user);
+    const token = await app.getOauth2ClientInstance().getAccessTokenForUser(user);
     const board_id = context.getInteractionData().value;
     const headers = {
         Authorization: `Bearer ${token?.token}`,
