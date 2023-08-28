@@ -1,8 +1,5 @@
-import { IHttp, IModify, IPersistence, IRead } from '@rocket.chat/apps-engine/definition/accessors';
 import { HttpStatusCode } from '@rocket.chat/apps-engine/definition/accessors';
-import { IRoom } from '@rocket.chat/apps-engine/definition/rooms';
-import { ButtonStyle, UIKitViewSubmitInteractionContext } from '@rocket.chat/apps-engine/definition/uikit';
-import { IUIKitViewSubmitIncomingInteraction } from '@rocket.chat/apps-engine/definition/uikit/UIKitIncomingInteractionTypes';
+import { ButtonStyle } from '@rocket.chat/apps-engine/definition/uikit';
 import { IUser } from '@rocket.chat/apps-engine/definition/users';
 import { Block } from '@rocket.chat/ui-kit';
 import { MiscEnum } from '../../enums/Misc';

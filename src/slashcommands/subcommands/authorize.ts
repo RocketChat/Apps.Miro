@@ -1,8 +1,4 @@
-import {
-    IModify,
-    IPersistence,
-    IRead,
-} from '@rocket.chat/apps-engine/definition/accessors';
+import { IModify, IPersistence, IRead } from '@rocket.chat/apps-engine/definition/accessors';
 import { ButtonStyle } from '@rocket.chat/apps-engine/definition/uikit';
 import { IUser } from '@rocket.chat/apps-engine/definition/users';
 import { Block } from '@rocket.chat/ui-kit';

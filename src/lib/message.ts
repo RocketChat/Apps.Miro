@@ -1,8 +1,4 @@
-import {
-    IModify,
-    IPersistence,
-    IRead,
-} from '@rocket.chat/apps-engine/definition/accessors';
+import { IModify, IPersistence, IRead } from '@rocket.chat/apps-engine/definition/accessors';
 import { IRoom, RoomType } from '@rocket.chat/apps-engine/definition/rooms';
 import { IUser } from '@rocket.chat/apps-engine/definition/users';
 import { Block, SectionBlock } from '@rocket.chat/ui-kit';
@@ -17,12 +13,7 @@ import { NotificationsController } from './notifications';
  * @param username the username to create a direct with bot
  * @returns the room or undefined if botUser or botUsername is not set
  */
-export async function getDirect(
-    read: IRead,
-    modify: IModify,
-    appUser: IUser,
-    username: string,
-): Promise<IRoom | undefined> {
+export async function getDirect(read: IRead, modify: IModify, appUser: IUser, username: string): Promise<IRoom | undefined> {
     const usernames = [appUser.username, username];
     let room: IRoom;
     try {
@@ -38,32 +29,16 @@ export async function getDirect(
         let roomId: string;
 
         // Create direct room between botUser and username
-        const newRoom = modify
-            .getCreator()
-            .startRoom()
-            .setType(RoomType.DIRECT_MESSAGE)
-            .setCreator(appUser)
-            .setMembersToBeAddedByUsernames(usernames);
+        const newRoom = modify.getCreator().startRoom().setType(RoomType.DIRECT_MESSAGE).setCreator(appUser).setMembersToBeAddedByUsernames(usernames);
         roomId = await modify.getCreator().finish(newRoom);
         return await read.getRoomReader().getById(roomId);
     }
 }
 
 export async function sendMessage(
-    modify: IModify,
-    room: IRoom,
-    sender: IUser,
-    message: string,
-    blocks?: Array<Block>,
+    modify: IModify, room: IRoom, sender: IUser, message: string, blocks?: Array<Block>,
 ): Promise<string> {
-    const msg = modify
-        .getCreator()
-        .startMessage()
-        .setSender(sender)
-        .setRoom(room)
-        .setGroupable(false)
-        .setParseUrls(false)
-        .setText(message);
+    const msg = modify.getCreator().startMessage().setSender(sender).setRoom(room).setGroupable(false).setParseUrls(false).setText(message);
 
     if (blocks !== undefined) {
         msg.setBlocks(blocks);
@@ -72,38 +47,19 @@ export async function sendMessage(
     return await modify.getCreator().finish(msg);
 }
 
-export async function shouldSendMessage(
-    read: IRead,
-    persistence: IPersistence,
-    user: IUser,
-): Promise<boolean> {
+export async function shouldSendMessage(read: IRead, persistence: IPersistence, user: IUser): Promise<boolean> {
     const notificationsController = new NotificationsController(
-        read,
-        persistence,
-        user,
-    );
+        read,     persistence,     user, );
     const notificationStatus =
         await notificationsController.getNotificationsStatus();
 
     return notificationStatus ? notificationStatus.status : true;
 }
 
-export async function sendNotification(
-    read: IRead,
-    modify: IModify,
-    user: IUser,
-    room: IRoom,
-    message: string,
-    blocks?: Array<Block>,
-): Promise<void> {
+export async function sendNotification(read: IRead, modify: IModify, user: IUser, room: IRoom, message: string, blocks?: Array<Block>): Promise<void> {
     const appUser = (await read.getUserReader().getAppUser()) as IUser;
 
-    const msg = modify
-        .getCreator()
-        .startMessage()
-        .setSender(appUser)
-        .setRoom(room)
-        .setText(message);
+    const msg = modify.getCreator().startMessage().setSender(appUser).setRoom(room).setText(message);
 
     if (blocks) {
         msg.setBlocks(blocks);
@@ -112,21 +68,10 @@ export async function sendNotification(
     return read.getNotifier().notifyUser(user, msg.getMessage());
 }
 
-export async function sendDirectMessage(
-    read: IRead,
-    modify: IModify,
-    user: IUser,
-    message: string,
-    persistence: IPersistence,
-    blocks?: Array<Block>,
-): Promise<string> {
+export async function sendDirectMessage(read: IRead, modify: IModify, user: IUser, message: string, persistence: IPersistence, blocks?: Array<Block>): Promise<string> {
     const appUser = (await read.getUserReader().getAppUser()) as IUser;
     const targetRoom = (await getDirect(
-        read,
-        modify,
-        appUser,
-        user.username,
-    )) as IRoom;
+        read,     modify,     appUser,     user.username, )) as IRoom;
 
     const shouldSend = await shouldSendMessage(read, persistence, user);
 

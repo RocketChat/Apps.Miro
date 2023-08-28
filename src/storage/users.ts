@@ -1,16 +1,6 @@
-import {
-    IPersistence,
-    IPersistenceRead,
-    IRead,
-} from '@rocket.chat/apps-engine/definition/accessors';
-import {
-    RocketChatAssociationModel,
-    RocketChatAssociationRecord,
-} from '@rocket.chat/apps-engine/definition/metadata';
-import {
-    IAuthData,
-    IOAuth2ClientOptions,
-} from '@rocket.chat/apps-engine/definition/oauth2/IOAuth2';
+import { IPersistence, IPersistenceRead, IRead } from '@rocket.chat/apps-engine/definition/accessors';
+import { RocketChatAssociationModel, RocketChatAssociationRecord } from '@rocket.chat/apps-engine/definition/metadata';
+import { IAuthData } from '@rocket.chat/apps-engine/definition/oauth2/IOAuth2';
 import { IUser } from '@rocket.chat/apps-engine/definition/users';
 import { ISubscription } from '../interfaces/external';
 
